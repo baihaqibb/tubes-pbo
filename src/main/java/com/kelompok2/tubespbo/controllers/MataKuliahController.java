@@ -13,6 +13,8 @@ import com.kelompok2.tubespbo.models.MataKuliah;
 import com.kelompok2.tubespbo.repositories.MataKuliahRepository;
 
 import jakarta.validation.Valid;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 @RequestMapping("/mata_kuliah")
@@ -21,12 +23,23 @@ public class MataKuliahController {
     @Autowired
     private MataKuliahRepository mataKuliahRepo;
 
-    @GetMapping({"", "/"})
+    @GetMapping({ "", "/" })
     public String getMataKuliah(Model model) {
         var mataKuliahList = mataKuliahRepo.findAll(Sort.by(Sort.Direction.ASC, "id"));
         model.addAttribute("mataKuliahList", mataKuliahList);
 
         return "mata_kuliah/index";
+    }
+
+    @GetMapping("/detail")
+    public String getMethodName(Model model, @RequestParam int id) {
+        MataKuliah mk = mataKuliahRepo.findById(id).orElse(null);
+        if (mk == null) {
+            return "mata_kuliah/index";
+        }
+        model.addAttribute("mk", mk);
+
+        return "mata_kuliah/detail";
     }
 
     @GetMapping("/create")
@@ -39,22 +52,22 @@ public class MataKuliahController {
 
     @PostMapping("/create")
     public String createMataKuliah(
-        @Valid @ModelAttribute MataKuliahDTO mataKuliahDTO,
-        BindingResult result) {
-        
+            @Valid @ModelAttribute MataKuliahDTO mataKuliahDTO,
+            BindingResult result) {
+
         if (mataKuliahDTO.getKode().isBlank()) {
-            result.addError(new FieldError("mataKuliahDTO", "kode", 
-            mataKuliahDTO.getKode(), false, null, null, "Kode can't be blank!"));
+            result.addError(new FieldError("mataKuliahDTO", "kode",
+                    mataKuliahDTO.getKode(), false, null, null, "Kode can't be blank!"));
         }
 
         if (mataKuliahDTO.getNama().isBlank()) {
-            result.addError(new FieldError("mataKuliahDTO", "nama", 
-            mataKuliahDTO.getNama(), false, null, null, "Nama can't be blank!"));
+            result.addError(new FieldError("mataKuliahDTO", "nama",
+                    mataKuliahDTO.getNama(), false, null, null, "Nama can't be blank!"));
         }
 
         if (mataKuliahRepo.findByKode(mataKuliahDTO.getKode()) != null) {
-            result.addError(new FieldError("mataKuliahDTO", "kode", 
-            mataKuliahDTO.getKode(), false, null, null, "Kode is already in use!"));
+            result.addError(new FieldError("mataKuliahDTO", "kode",
+                    mataKuliahDTO.getKode(), false, null, null, "Kode is already in use!"));
         }
 
         if (result.hasErrors()) {
@@ -68,9 +81,9 @@ public class MataKuliahController {
         mk.setSks(mataKuliahDTO.getSks());
 
         mataKuliahRepo.save(mk);
-        
-        return "redirect:/mata_kuliah";    
-        
+
+        return "redirect:/mata_kuliah";
+
     }
 
     @GetMapping("/edit")
@@ -87,14 +100,14 @@ public class MataKuliahController {
         model.addAttribute("mk", mk);
         model.addAttribute("mataKuliahDTO", mataKuliahDTO);
 
-        return "mata_kuliah/create";
+        return "mata_kuliah/edit";
     }
 
     @PostMapping("/edit")
     public String editMataKuliah(Model model,
-        @RequestParam int id,
-        @Valid @ModelAttribute MataKuliahDTO mataKuliahDTO,
-        BindingResult result) {
+            @RequestParam int id,
+            @Valid @ModelAttribute MataKuliahDTO mataKuliahDTO,
+            BindingResult result) {
 
         MataKuliah mk = mataKuliahRepo.findById(id).orElse(null);
         if (mk == null) {
@@ -114,12 +127,12 @@ public class MataKuliahController {
         try {
             mataKuliahRepo.save(mk);
         } catch (Exception e) {
-            result.addError(new FieldError("mataKuliahDTO", "kode", 
-            mataKuliahDTO.getKode(), false, null, null, "Kode is already in use!"));
+            result.addError(new FieldError("mataKuliahDTO", "kode",
+                    mataKuliahDTO.getKode(), false, null, null, "Kode is already in use!"));
         }
-        
-        return "redirect:/mata_kuliah";    
-        
+
+        return "redirect:/mata_kuliah";
+
     }
 
     @GetMapping("/delete")

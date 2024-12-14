@@ -11,6 +11,8 @@ public class MataKuliahDTO {
 
     @NotBlank(message = "Please fill this field")
     private String nama;
-    
+
+    @Min(1)
+    @Max(99)
     private int sks;
 }
