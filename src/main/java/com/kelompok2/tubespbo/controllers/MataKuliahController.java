@@ -9,7 +9,8 @@ import org.springframework.validation.FieldError;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import com.kelompok2.tubespbo.dtos.MataKuliahDTO;
+import com.kelompok2.tubespbo.models.MataKuliah;
+import com.kelompok2.tubespbo.models.dtos.MataKuliahDTO;
 import com.kelompok2.tubespbo.services.MataKuliahService;
 
 import jakarta.validation.Valid;
@@ -53,7 +54,7 @@ public class MataKuliahController {
 
     @GetMapping("/create")
     public String createMataKuliahForm(Model model) {
-        MataKuliahDTO mataKuliah = new MataKuliahDTO();
+        MataKuliah mataKuliah = new MataKuliah();
         model.addAttribute("mk", mataKuliah);
         return "mata_kuliah/create";
     }
@@ -75,9 +76,10 @@ public class MataKuliahController {
             
         } catch (Exception e) {}
         if (result.hasErrors()) {
+            model.addAttribute("mk", mataKuliahDTO);
             return "mata_kuliah/create";
         }
-        mataKuliahService.saveMataKuliah(mataKuliahDTO);
+        mataKuliahService.createMataKuliah(mataKuliahDTO);
         return "redirect:/mata_kuliah";
     }
 

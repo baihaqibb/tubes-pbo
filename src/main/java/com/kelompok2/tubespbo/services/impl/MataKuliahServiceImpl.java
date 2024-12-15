@@ -1,5 +1,8 @@
 package com.kelompok2.tubespbo.services.impl;
 
+import static com.kelompok2.tubespbo.models.mappers.MataKuliahMapper.mapToMataKuliah;
+import static com.kelompok2.tubespbo.models.mappers.MataKuliahMapper.mapToMataKuliahDTO;
+
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -7,8 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import com.kelompok2.tubespbo.dtos.MataKuliahDTO;
 import com.kelompok2.tubespbo.models.MataKuliah;
+import com.kelompok2.tubespbo.models.dtos.MataKuliahDTO;
 import com.kelompok2.tubespbo.repositories.MataKuliahRepository;
 import com.kelompok2.tubespbo.services.MataKuliahService;
 
@@ -18,34 +21,10 @@ public class MataKuliahServiceImpl implements MataKuliahService {
     @Autowired
     private MataKuliahRepository mataKuliahRepository;
 
-    private MataKuliahDTO mapToMataKuliahDTO(MataKuliah mataKuliah) {
-        return MataKuliahDTO.builder()
-                            .id(mataKuliah.getId())
-                            .kode(mataKuliah.getKode())
-                            .nama(mataKuliah.getNama())
-                            .sks(mataKuliah.getSks())
-                            .build();
-    }
-
-    private MataKuliah mapToMataKuliah(MataKuliahDTO mataKuliahDTO) {
-        return MataKuliah.builder()
-                         .id(mataKuliahDTO.getId())
-                         .kode(mataKuliahDTO.getKode())
-                         .nama(mataKuliahDTO.getNama())
-                         .sks(mataKuliahDTO.getSks())
-                         .build();
-    }
-
     @Override
     public List<MataKuliahDTO> findAllMataKuliah() {
         List<MataKuliah> mataKuliahs = mataKuliahRepository.findAll(Sort.by(Sort.Direction.ASC, "id"));
         return mataKuliahs.stream().map((mataKuliah) -> mapToMataKuliahDTO(mataKuliah)).collect(Collectors.toList());
-    }
-
-    @Override
-    public MataKuliah saveMataKuliah(MataKuliahDTO mataKuliahDTO) {     
-        MataKuliah mataKuliah = mapToMataKuliah(mataKuliahDTO);
-        return mataKuliahRepository.save(mataKuliah);
     }
 
     @Override
@@ -58,6 +37,12 @@ public class MataKuliahServiceImpl implements MataKuliahService {
     public MataKuliahDTO findMataKuliahByKode(String kode) {
         MataKuliah mataKuliah = mataKuliahRepository.findByKode(kode).get();
         return mapToMataKuliahDTO(mataKuliah);
+    }
+
+    @Override
+    public MataKuliah createMataKuliah(MataKuliahDTO mataKuliahDTO) {     
+        MataKuliah mataKuliah = mapToMataKuliah(mataKuliahDTO);
+        return mataKuliahRepository.save(mataKuliah);
     }
 
     @Override
