@@ -16,8 +16,8 @@
     <div class="container my-5 w-75">
       <div class="bg-body my-3 p-3 rounded shadow-sm">
         <h2 class="text-center mb-4">Detail Mata Kuliah</h2>
-        <div class="pb-3">
-          <a class="btn btn-outline-primary" href="/mata_kuliah">Kembali</a>
+        <div class="mb-3">
+          <a class="btn btn-outline-secondary" href="/mata_kuliah">Kembali</a>
         </div>
         <table class="table">
           <tr>
@@ -39,11 +39,12 @@
         </table>
 
         <h4 class="text-center my-4">Komponen Penilaian Mata Kuliah</h4>
-        <!--
+        
         <div class="pb-3">
-          <a class="btn btn-primary" href="/mata_kuliah">Tambah</a>
+          <a class="btn btn-primary" th:href="@{/komponen_penilaian/create(mkid=${mk.id})}">Tambah</a>
         </div>
 
+        <!--
         <table class="table table-hover">
           <thead>
             <tr>

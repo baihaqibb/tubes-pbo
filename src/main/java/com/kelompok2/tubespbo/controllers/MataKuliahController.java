@@ -1,147 +1,127 @@
 package com.kelompok2.tubespbo.controllers;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import com.kelompok2.tubespbo.dtos.MataKuliahDTO;
-import com.kelompok2.tubespbo.models.MataKuliah;
-import com.kelompok2.tubespbo.repositories.MataKuliahRepository;
+import com.kelompok2.tubespbo.services.MataKuliahService;
 
 import jakarta.validation.Valid;
+
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+
 
 @Controller
 @RequestMapping("/mata_kuliah")
 public class MataKuliahController {
 
     @Autowired
-    private MataKuliahRepository mataKuliahRepo;
+    private MataKuliahService mataKuliahService;
 
     @GetMapping({ "", "/" })
-    public String getMataKuliah(Model model) {
-        var mataKuliahList = mataKuliahRepo.findAll(Sort.by(Sort.Direction.ASC, "id"));
+    public String mataKuliahList(Model model) {
+        List<MataKuliahDTO> mataKuliahList = mataKuliahService.findAllMataKuliah();
         model.addAttribute("mataKuliahList", mataKuliahList);
-
         return "mata_kuliah/index";
     }
 
-    @GetMapping("/detail")
-    public String getMethodName(Model model, @RequestParam int id) {
-        MataKuliah mk = mataKuliahRepo.findById(id).orElse(null);
-        if (mk == null) {
+    @GetMapping("/search")
+    public String getMethodName(Model model, @RequestParam(value = "q") String query) {
+        List<MataKuliahDTO> mataKuliahList = mataKuliahService.searchMataKuliahs(query);
+        model.addAttribute("mataKuliahList", mataKuliahList);
+        return "mata_kuliah/index";
+    }
+    
+
+    @GetMapping("/{id}")
+    public String mataKuliahDetail(Model model, @PathVariable int id) {
+        try {
+            MataKuliahDTO mataKuliahDTO = mataKuliahService.findMataKuliahById(id);
+            model.addAttribute("mk", mataKuliahDTO);
+            return "mata_kuliah/detail";
+        } catch (Exception e) {
             return "mata_kuliah/index";
         }
-        model.addAttribute("mk", mk);
-
-        return "mata_kuliah/detail";
     }
 
     @GetMapping("/create")
-    public String createMataKuliah(Model model) {
-        MataKuliahDTO mataKuliahDTO = new MataKuliahDTO();
-        model.addAttribute("mataKuliahDTO", mataKuliahDTO);
-
+    public String createMataKuliahForm(Model model) {
+        MataKuliahDTO mataKuliah = new MataKuliahDTO();
+        model.addAttribute("mk", mataKuliah);
         return "mata_kuliah/create";
     }
 
     @PostMapping("/create")
-    public String createMataKuliah(
-            @Valid @ModelAttribute MataKuliahDTO mataKuliahDTO,
-            BindingResult result) {
-
-        if (mataKuliahDTO.getKode().isBlank()) {
-            result.addError(new FieldError("mataKuliahDTO", "kode",
-                    mataKuliahDTO.getKode(), false, null, null, "Kode can't be blank!"));
-        }
-
-        if (mataKuliahDTO.getNama().isBlank()) {
-            result.addError(new FieldError("mataKuliahDTO", "nama",
-                    mataKuliahDTO.getNama(), false, null, null, "Nama can't be blank!"));
-        }
-
-        if (mataKuliahRepo.findByKode(mataKuliahDTO.getKode()) != null) {
-            result.addError(new FieldError("mataKuliahDTO", "kode",
-                    mataKuliahDTO.getKode(), false, null, null, "Kode is already in use!"));
-        }
-
+    public String createMataKuliahQuery(Model model, 
+                                        @Valid @ModelAttribute("mk") MataKuliahDTO mataKuliahDTO, 
+                                        BindingResult result) 
+    {
+        try {
+            mataKuliahService.findMataKuliahByKode(mataKuliahDTO.getKode());
+            result.addError(new FieldError("mataKuliahDTO", 
+                                               "kode",
+                                               mataKuliahDTO.getKode(), 
+                                               false, 
+                                               null, 
+                                               null, 
+                                               "Kode is already in use!"));
+            
+        } catch (Exception e) {}
         if (result.hasErrors()) {
             return "mata_kuliah/create";
         }
-
-        MataKuliah mk = new MataKuliah();
-
-        mk.setKode(mataKuliahDTO.getKode());
-        mk.setNama(mataKuliahDTO.getNama());
-        mk.setSks(mataKuliahDTO.getSks());
-
-        mataKuliahRepo.save(mk);
-
+        mataKuliahService.saveMataKuliah(mataKuliahDTO);
         return "redirect:/mata_kuliah";
-
     }
 
-    @GetMapping("/edit")
-    public String editMataKuliah(Model model, @RequestParam int id) {
-        MataKuliah mk = mataKuliahRepo.findById(id).orElse(null);
-        if (mk == null) {
+    @GetMapping("/{id}/edit")
+    public String editMataKuliahForm(Model model, @PathVariable int id) {
+        try {
+            MataKuliahDTO mataKuliah = mataKuliahService.findMataKuliahById(id);
+            model.addAttribute("mk", mataKuliah);
+            return "mata_kuliah/edit";
+        } catch (Exception e) {
             return "redirect:/mata_kuliah";
         }
-        MataKuliahDTO mataKuliahDTO = new MataKuliahDTO();
-        mataKuliahDTO.setKode(mk.getKode());
-        mataKuliahDTO.setNama(mk.getNama());
-        mataKuliahDTO.setSks(mk.getSks());
-
-        model.addAttribute("mk", mk);
-        model.addAttribute("mataKuliahDTO", mataKuliahDTO);
-
-        return "mata_kuliah/edit";
     }
 
-    @PostMapping("/edit")
-    public String editMataKuliah(Model model,
-            @RequestParam int id,
-            @Valid @ModelAttribute MataKuliahDTO mataKuliahDTO,
-            BindingResult result) {
-
-        MataKuliah mk = mataKuliahRepo.findById(id).orElse(null);
-        if (mk == null) {
-            return "redirect:/mata_kuliah";
-        }
-
-        model.addAttribute("mk", mk);
-
+    @PostMapping("/{id}/edit")
+    public String editMataKuliahQuery(Model model, 
+                                      @PathVariable int id, 
+                                      @Valid @ModelAttribute("mk") MataKuliahDTO mataKuliahDTO,
+                                      BindingResult result) 
+    {
+        try {
+            MataKuliahDTO foundMataKuliah = mataKuliahService.findMataKuliahByKode(mataKuliahDTO.getKode());
+            if (foundMataKuliah.getId() != mataKuliahDTO.getId()) {
+                result.addError(new FieldError("mataKuliahDTO", 
+                                               "kode",
+                                               mataKuliahDTO.getKode(), 
+                                               false, 
+                                               null, 
+                                               null, 
+                                               "Kode is already in use!"));
+            }
+        } catch (Exception e) {}
         if (result.hasErrors()) {
+            model.addAttribute("mk", mataKuliahDTO);
             return "mata_kuliah/edit";
         }
-
-        mk.setKode(mataKuliahDTO.getKode());
-        mk.setNama(mataKuliahDTO.getNama());
-        mk.setSks(mataKuliahDTO.getSks());
-
-        try {
-            mataKuliahRepo.save(mk);
-        } catch (Exception e) {
-            result.addError(new FieldError("mataKuliahDTO", "kode",
-                    mataKuliahDTO.getKode(), false, null, null, "Kode is already in use!"));
-        }
-
+        mataKuliahDTO.setId(id);
+        mataKuliahService.updateMataKuliah(mataKuliahDTO);
         return "redirect:/mata_kuliah";
-
     }
 
-    @GetMapping("/delete")
-    public String deleteMataKuliah(@RequestParam int id) {
-        MataKuliah mk = mataKuliahRepo.findById(id).orElse(null);
-        if (mk != null) {
-            mataKuliahRepo.delete(mk);
-        }
-
+    @GetMapping("/{id}/delete")
+    public String deleteMataKuliah(@PathVariable int id) {
+        mataKuliahService.deleteMataKuliahById(id);
         return "redirect:/mata_kuliah";
     }
 }

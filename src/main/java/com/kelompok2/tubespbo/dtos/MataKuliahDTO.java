@@ -1,18 +1,19 @@
 package com.kelompok2.tubespbo.dtos;
 
 import jakarta.validation.constraints.*;
-import lombok.Data;
+import lombok.*;
 
 @Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class MataKuliahDTO {
-
-    @NotBlank(message = "Please fill this field")
+    private int id;
+    @NotBlank(message = "Kode must not be blank!")
     private String kode;
-
-    @NotBlank(message = "Please fill this field")
+    @NotBlank(message = "Nama must not be blank!")
     private String nama;
-
-    @Min(1)
-    @Max(99)
+    @Min(value=1, message = "SKS must be in a following range: (1-99)")
+    @Max(value=99, message = "SKS must be in a following range: (1-99)")
     private int sks;
 }

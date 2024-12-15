@@ -1,0 +1,23 @@
+package com.kelompok2.tubespbo.models;
+
+import jakarta.persistence.*;
+import lombok.*;
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+@Entity
+@Table(name="komponen_penilaian")
+public class KomponenPenilaian {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
+    @Column(nullable = false)
+    private String tipe;
+    @Column(nullable = false)
+    private double bobot;
+    @ManyToOne
+    @JoinColumn(name = "mata_kuliah_id", nullable = false)
+    private MataKuliah mataKuliah;
+}
