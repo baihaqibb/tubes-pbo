@@ -19,4 +19,6 @@ public class MataKuliahDTO {
     @Max(value=99, message = "SKS must be in a following range: (1 - 99)")
     private int sks;
     private List<KomponenPenilaianDTO> komponenPenilaian;
+    private double nilai = 0;
+    private char indexNilai = '-';
 }

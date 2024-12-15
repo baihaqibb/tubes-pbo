@@ -24,4 +24,8 @@ public class MataKuliah {
     private int sks;
     @OneToMany(mappedBy = "mataKuliah", cascade = CascadeType.REMOVE)
     private final List<KomponenPenilaian> komponenPenilaian = new ArrayList<>();
+    @Column(nullable = false)
+    private double nilai;
+    @Column(nullable = false)
+    private char indexNilai;
 }

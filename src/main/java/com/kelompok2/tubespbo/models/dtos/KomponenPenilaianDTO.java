@@ -16,5 +16,6 @@ public class KomponenPenilaianDTO {
     @Min(value=0, message = "Bobot must be in a following range: (0.0 - 1.0)")
     @Max(value=1, message = "Bobot must be in a following range: (0.0 - 1.0)")
     private double bobot;
+    private double nilai;
     private MataKuliah mataKuliah;
 }

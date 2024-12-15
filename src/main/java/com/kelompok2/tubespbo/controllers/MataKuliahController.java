@@ -43,13 +43,12 @@ public class MataKuliahController {
 
     @GetMapping("/{id}")
     public String mataKuliahDetail(Model model, @PathVariable int id) {
-        try {
-            MataKuliahDTO mataKuliahDTO = mataKuliahService.findMataKuliahById(id);
-            model.addAttribute("mk", mataKuliahDTO);
-            return "mata_kuliah/detail";
-        } catch (Exception e) {
-            return "mata_kuliah/index";
+        MataKuliahDTO mataKuliahDTO = mataKuliahService.findMataKuliahById(id);
+        if (mataKuliahDTO == null) {
+            return "redirect:/mata_kuliah";
         }
+        model.addAttribute("mk", mataKuliahDTO);
+        return "mata_kuliah/detail";
     }
 
     @GetMapping("/create")
@@ -64,17 +63,15 @@ public class MataKuliahController {
                                         @Valid @ModelAttribute("mk") MataKuliahDTO mataKuliahDTO, 
                                         BindingResult result) 
     {
-        try {
-            mataKuliahService.findMataKuliahByKode(mataKuliahDTO.getKode());
+        if (mataKuliahService.findMataKuliahByKode(mataKuliahDTO.getKode()) != null) {
             result.addError(new FieldError("mataKuliahDTO", 
-                                               "kode",
-                                               mataKuliahDTO.getKode(), 
-                                               false, 
-                                               null, 
-                                               null, 
-                                               "Kode is already in use!"));
-            
-        } catch (Exception e) {}
+                                           "kode",
+                                           mataKuliahDTO.getKode(), 
+                                           false, 
+                                           null, 
+                                           null, 
+                                           "Kode is already in use!"));
+        }
         if (result.hasErrors()) {
             model.addAttribute("mk", mataKuliahDTO);
             return "mata_kuliah/create";
@@ -85,13 +82,12 @@ public class MataKuliahController {
 
     @GetMapping("/{id}/edit")
     public String editMataKuliahForm(Model model, @PathVariable int id) {
-        try {
-            MataKuliahDTO mataKuliah = mataKuliahService.findMataKuliahById(id);
-            model.addAttribute("mk", mataKuliah);
-            return "mata_kuliah/edit";
-        } catch (Exception e) {
+        MataKuliahDTO mataKuliah = mataKuliahService.findMataKuliahById(id);
+        if (mataKuliah == null) {
             return "redirect:/mata_kuliah";
         }
+        model.addAttribute("mk", mataKuliah);
+        return "mata_kuliah/edit";
     }
 
     @PostMapping("/{id}/edit")
@@ -100,18 +96,16 @@ public class MataKuliahController {
                                       @Valid @ModelAttribute("mk") MataKuliahDTO mataKuliahDTO,
                                       BindingResult result) 
     {
-        try {
-            MataKuliahDTO foundMataKuliah = mataKuliahService.findMataKuliahByKode(mataKuliahDTO.getKode());
-            if (foundMataKuliah.getId() != mataKuliahDTO.getId()) {
-                result.addError(new FieldError("mataKuliahDTO", 
-                                               "kode",
-                                               mataKuliahDTO.getKode(), 
-                                               false, 
-                                               null, 
-                                               null, 
-                                               "Kode is already in use!"));
-            }
-        } catch (Exception e) {}
+        MataKuliahDTO foundMataKuliah = mataKuliahService.findMataKuliahByKode(mataKuliahDTO.getKode());
+        if (foundMataKuliah != null && foundMataKuliah.getId() != mataKuliahDTO.getId()) {
+            result.addError(new FieldError("mataKuliahDTO", 
+                                           "kode",
+                                           mataKuliahDTO.getKode(), 
+                                           false, 
+                                           null, 
+                                           null, 
+                                           "Kode is already in use!"));
+        }
         if (result.hasErrors()) {
             model.addAttribute("mk", mataKuliahDTO);
             return "mata_kuliah/edit";

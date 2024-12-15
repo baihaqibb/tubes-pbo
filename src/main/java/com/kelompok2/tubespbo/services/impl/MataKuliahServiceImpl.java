@@ -29,14 +29,22 @@ public class MataKuliahServiceImpl implements MataKuliahService {
 
     @Override
     public MataKuliahDTO findMataKuliahById(int id) {
-        MataKuliah mataKuliah = mataKuliahRepository.findById(id).get();
-        return mapToMataKuliahDTO(mataKuliah);
+        try {
+            MataKuliah mataKuliah = mataKuliahRepository.findById(id).get();
+            return mapToMataKuliahDTO(mataKuliah);
+        } catch (Exception e) {
+            return null;
+        }
     }
 
     @Override
     public MataKuliahDTO findMataKuliahByKode(String kode) {
-        MataKuliah mataKuliah = mataKuliahRepository.findByKode(kode).get();
-        return mapToMataKuliahDTO(mataKuliah);
+        try {
+            MataKuliah mataKuliah = mataKuliahRepository.findByKode(kode).get();
+            return mapToMataKuliahDTO(mataKuliah);
+        } catch (Exception e) {
+            return null;
+        }
     }
 
     @Override

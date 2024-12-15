@@ -17,6 +17,8 @@ public class KomponenPenilaian {
     private String tipe;
     @Column(nullable = false)
     private double bobot;
+    @Column(nullable = false)
+    private double nilai;
     @ManyToOne
     @JoinColumn(name = "mata_kuliah_id", nullable = false)
     private MataKuliah mataKuliah;
