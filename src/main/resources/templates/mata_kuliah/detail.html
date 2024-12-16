@@ -36,6 +36,14 @@
             <th style="width: 20%">Jumlah SKS:</th>
             <td th:text="${mk.sks}"></td>
           </tr>
+          <tr>
+            <th style="width: 20%">Nilai:</th>
+            <td th:text="${mk.nilai}"></td>
+          </tr>
+          <tr>
+            <th style="width: 20%">Indeks Nilai:</th>
+            <td th:text="${mk.indexNilai}"></td>
+          </tr>
         </table>
 
         <div>
@@ -55,6 +63,7 @@
                 <th>ID</th>
                 <th>Tipe</th>
                 <th>Bobot</th>
+                <th>Nilai</th>
                 <th>Action</th>
               </tr>
             </thead>
@@ -63,6 +72,7 @@
                 <td th:text="${kp.id}"></td>
                 <td th:text="${kp.tipe}"></td>
                 <td th:text="${kp.bobot}"></td>
+                <td th:text="${kp.nilai}"></td>
 
                 <td style="white-space: nowrap">
                   <a
