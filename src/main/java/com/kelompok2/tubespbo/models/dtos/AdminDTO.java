@@ -1,5 +1,7 @@
 package com.kelompok2.tubespbo.models.dtos;
 
+import com.kelompok2.tubespbo.models.Role;
+
 import jakarta.validation.constraints.*;
 import lombok.*;
 
@@ -20,6 +22,7 @@ public class AdminDTO {
     private String password;
     @NotBlank(message = "Full Name must not be blank!")
     private String fullName;
+    private Role role;
     @NotBlank(message = "NIP must not be blank!")
     private String nip;
 }

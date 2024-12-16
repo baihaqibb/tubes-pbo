@@ -1,65 +1,64 @@
 package com.kelompok2.tubespbo.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.security.SecurityProperties.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.kelompok2.tubespbo.models.Admin;
+import com.kelompok2.tubespbo.models.Mahasiswa;
 import com.kelompok2.tubespbo.models.UserEntity;
-import com.kelompok2.tubespbo.models.dtos.AdminDTO;
+import com.kelompok2.tubespbo.models.dtos.MahasiswaDTO;
 import com.kelompok2.tubespbo.services.UserService;
 
 import jakarta.validation.Valid;
 
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
 
 @Controller
-@RequestMapping("/admin")
-public class AdminController {
-
+@RequestMapping("/mahasiswa")
+public class MahasiswaController {
+    
     @Autowired
     private UserService userService;
 
-@   GetMapping({ "", "/" })
-    public String adminHome(Model model) {
-        return "admin/index";
+    @GetMapping({"", "/"})
+    public String mahasiswaHome() {
+        return "mahasiswa/index";
     }
-
+    
     @GetMapping("register")
-    public String registerAdmin(Model model) {
-        Admin admin = new Admin();
-        model.addAttribute("adm", admin);
-        return "admin/register";
+    public String registerMahasiswa(Model model) {
+        Mahasiswa mahasiswa = new Mahasiswa();
+        model.addAttribute("mhs", mahasiswa);
+        return "mahasiswa/register";
     }
 
     @PostMapping("register")
     public String postMethodName(Model model, 
-        @Valid @ModelAttribute("adm") AdminDTO adminDTO,
+        @Valid @ModelAttribute("mhs") MahasiswaDTO mahasiswaDTO,
         BindingResult result) {
-        UserEntity existingEmail = userService.findUserByEmail(adminDTO.getEmail());
+        UserEntity existingEmail = userService.findUserByEmail(mahasiswaDTO.getEmail());
         if (existingEmail != null && existingEmail.getEmail() != null && !existingEmail.getEmail().isBlank()) {
             result.rejectValue("email", "error.email", "The email is already in use with another user!");
         }
-        UserEntity existingUsername = userService.findUserByUsername(adminDTO.getUsername());
+        UserEntity existingUsername = userService.findUserByUsername(mahasiswaDTO.getUsername());
         if (existingUsername != null && existingUsername.getEmail() != null && !existingUsername.getEmail().isBlank()) {
             result.rejectValue("username", "error.username", "The username is already in use with another user!");
         }
-        AdminDTO existingNip = userService.findAdminByNip(adminDTO.getNip());
-        if (existingNip != null && existingNip.getNip() != null && !existingNip.getNip().isBlank()) {
+        MahasiswaDTO existingNim = userService.findMahasiswaByNim(mahasiswaDTO.getNim());
+        if (existingNim != null && existingNim.getNim() != null && !existingNim.getNim().isBlank()) {
             result.rejectValue("nim", "error.nim", "The NIM is already in use with another user!");
         }
         if (result.hasErrors()) {
-            model.addAttribute("adm", adminDTO);
-            return "admin/register";
+            model.addAttribute("mhs", mahasiswaDTO);
+            return "mahasiswa/register";
         }
-        userService.createAdmin(adminDTO);
-        return "redirect:/admin?success";
+        userService.createMahasiswa(mahasiswaDTO);
+        return "redirect:/mahasiswa?success";
     }
-    
+
 }

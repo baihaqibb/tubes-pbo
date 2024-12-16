@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Register Admin</title>
+    <title>Register Mahasiswa</title>
     <link
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
       rel="stylesheet"
@@ -15,8 +15,8 @@
     <div class="container my-5 w-50">
       <div class="row">
         <div class="bg-body col-md-8 mx-auto rounded border p-4">
-          <h3 class="text-center mb-4">Register Admin</h3>
-          <form method="post" th:object="${adm}">
+          <h3 class="text-center mb-4">Register Mahasiswa</h3>
+          <form method="post" th:object="${mhs}">
             <div class="mb-3">
               <div class="form-floating">
                 <input
@@ -24,7 +24,7 @@
                   class="form-control"
                   id="fullname"
                   placeholder="John Doe"
-                  th:field="${adm.fullName}"
+                  th:field="${mhs.fullName}"
                   required
                 />
                 <label for="fullname">Full Name</label>
@@ -33,7 +33,7 @@
               <p
                 th:if="${#fields.hasErrors('fullName')}"
                 th:errorclass="text-danger"
-                th:errors="${adm.fullName}"
+                th:errors="${mhs.fullName}"
               ></p>
             </div>
 
@@ -42,20 +42,40 @@
                 <input
                   type="text"
                   class="form-control"
-                  id="nip"
-                  placeholder="John Doe"
-                  th:field="${adm.nip}"
+                  id="nim"
+                  placeholder="1301000000"
+                  th:field="${mhs.nim}"
                   required
                 />
-                <label for="nip">NIP</label>
+                <label for="nim">NIM</label>
               </div>
 
               <p
-                th:if="${#fields.hasErrors('nip')}"
+                th:if="${#fields.hasErrors('nim')}"
                 th:errorclass="text-danger"
-                th:errors="${adm.nip}"
+                th:errors="${mhs.nim}"
               ></p>
             </div>
+
+            <div class="mb-3">
+                <div class="form-floating">
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="kelas"
+                    placeholder="IF-01-01"
+                    th:field="${mhs.kelas}"
+                    required
+                  />
+                  <label for="kelas">Kelas</label>
+                </div>
+  
+                <p
+                  th:if="${#fields.hasErrors('kelas')}"
+                  th:errorclass="text-danger"
+                  th:errors="${mhs.kelas}"
+                ></p>
+              </div>
 
             <div class="mb-3">
               <div class="form-floating">
@@ -64,7 +84,7 @@
                   class="form-control"
                   id="email"
                   placeholder="someone@example.com"
-                  th:field="${adm.email}"
+                  th:field="${mhs.email}"
                   required
                 />
                 <label for="email">Email address</label>
@@ -72,7 +92,7 @@
               <p
                 th:if="${#fields.hasErrors('email')}"
                 th:errorclass="text-danger"
-                th:errors="${adm.email}"
+                th:errors="${mhs.email}"
               ></p>
             </div>
 
@@ -83,7 +103,7 @@
                   class="form-control"
                   id="username"
                   placeholder="someone123"
-                  th:field="${adm.username}"
+                  th:field="${mhs.username}"
                   required
                 />
                 <label for="username">Username</label>
@@ -91,7 +111,7 @@
               <p
                 th:if="${#fields.hasErrors('username')}"
                 th:errorclass="text-danger"
-                th:errors="${adm.username}"
+                th:errors="${mhs.username}"
               ></p>
             </div>
 
@@ -102,7 +122,7 @@
                   class="form-control"
                   id="password"
                   placeholder="Password"
-                  th:field="${adm.password}"
+                  th:field="${mhs.password}"
                   required
                 />
                 <label for="password">Password</label>
@@ -111,7 +131,7 @@
               <p
                 th:if="${#fields.hasErrors('password')}"
                 th:errorclass="text-danger"
-                th:errors="${adm.password}"
+                th:errors="${mhs.password}"
               ></p>
             </div>
 

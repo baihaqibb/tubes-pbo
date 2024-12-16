@@ -2,11 +2,12 @@ package com.kelompok2.tubespbo.models;
 
 import jakarta.persistence.*;
 import lombok.*;
+import lombok.experimental.SuperBuilder;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
+@SuperBuilder
 @Entity
 @Table(name = "mahasiswa")
 public class Mahasiswa extends UserEntity {
