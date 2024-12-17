@@ -19,6 +19,32 @@
       </div>
       <div class="bg-body rounded my-3 p-3 shadow-sm">
         <h2 class="text-center mb-4">Logged in as Mahasiswa</h2>
+        <table class="table">
+          <tr>
+            <th style="width: 20%">Full Name:</th>
+            <td th:text="${mhs.fullName}"></td>
+          </tr>
+          <tr>
+            <th style="width: 20%">Email:</th>
+            <td th:text="${mhs.email}"></td>
+          </tr>
+          <tr>
+            <th style="width: 20%">Username:</th>
+            <td th:text="${mhs.username}"></td>
+          </tr>
+          <tr>
+            <th style="width: 20%">NIM:</th>
+            <td th:text="${mhs.nim}"></td>
+          </tr>
+          <tr>
+            <th style="width: 20%">Kelas:</th>
+            <td th:text="${mhs.kelas}"></td>
+          </tr>
+        </table>
+        <div class="text-center">
+          <a class="btn btn-primary" href="/mata_kuliah">Mata Kuliah</a>
+          <a class="btn btn-outline-primary" href="/logout">Logout</a>
+        </div>
       </div>
     </div>
     <script

@@ -26,7 +26,7 @@ public class CustomUserDetailsService implements UserDetailsService {
         UserEntity user = userRepository.findByUsername(username).get();
         if(user != null) {
             List<SimpleGrantedAuthority> roles = new ArrayList<>();
-            roles.add(new SimpleGrantedAuthority(username));
+            roles.add(new SimpleGrantedAuthority(user.getRole().getRole()));
             User authUser = new User(
                 user.getUsername(),
                 user.getPassword(),

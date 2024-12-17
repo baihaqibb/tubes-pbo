@@ -26,7 +26,7 @@ public class AdminController {
     @Autowired
     private UserService userService;
 
-@   GetMapping({ "", "/" })
+    @GetMapping({ "", "/" })
     public String adminHome(Model model) {
         return "admin/index";
     }

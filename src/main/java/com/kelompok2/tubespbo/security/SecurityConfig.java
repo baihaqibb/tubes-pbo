@@ -3,7 +3,6 @@ package com.kelompok2.tubespbo.security;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -27,9 +26,11 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.csrf(csrf -> csrf.disable())
-                .authorizeRequests(requests -> requests
+                .authorizeHttpRequests(requests -> requests
                         .requestMatchers("/login")
                         .permitAll()
+                        .requestMatchers("/admin/**")
+                        .hasAuthority("ADMIN")
                         .anyRequest()
                         .authenticated())
                 .formLogin(form -> form
@@ -37,7 +38,8 @@ public class SecurityConfig {
                         .defaultSuccessUrl("/")
                         .loginProcessingUrl("/login")
                         .failureUrl("/login?error=true")
-                        .permitAll())
+                        .permitAll()
+                        )
                 .logout(logout -> logout
                         .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
                         .permitAll());
