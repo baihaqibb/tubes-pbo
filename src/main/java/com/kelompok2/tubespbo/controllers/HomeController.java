@@ -21,13 +21,12 @@ public class HomeController {
         String currentAuthority = SecurityUtil.getSessionAuthority();
         if (currentAuthority.equals("ADMIN")) {
             AdminDTO adminDTO = userService.findAdminByUsername(SecurityUtil.getSessionUser());
-            model.addAttribute("adm", adminDTO);
-            return "admin/index";
+            model.addAttribute("user", adminDTO);
         } else if (currentAuthority.equals("MAHASISWA")) {
             MahasiswaDTO mahasiswaDTO = userService.findMahasiswaByUsername(SecurityUtil.getSessionUser());
-            model.addAttribute("mhs", mahasiswaDTO);
-            return "mahasiswa/index";
+            model.addAttribute("user", mahasiswaDTO);
         }
+        model.addAttribute("role", currentAuthority);
         return "index";
     }
 

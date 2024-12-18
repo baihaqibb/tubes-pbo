@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -14,10 +14,68 @@
 
   <body class="bg-light">
     <div class="container my-5 w-75">
-      <h1 class="text-center mb-3">you shouldn't be here...</h1>
-      <div class="text-center">
-        <a class="btn btn-outline-primary" href="/logout">Logout</a>
+      <div th:if="${param.success}" class="alert alert-success">
+        Registration Successful!
       </div>
+      <div class="mb-3">
+        <a class="btn btn-outline-secondary" href="/logout">Logout</a>
+      </div>
+      <div th:if="${role.equals('ADMIN')}" class="bg-body rounded my-3 p-3 shadow-sm">
+        <h2 class="text-center mb-4">Logged in as Admin</h2>
+        <table class="table">
+          <tr>
+            <th style="width: 20%">Nama Lengkap:</th>
+            <td th:text="${user.fullName}"></td>
+          </tr>
+          <tr>
+            <th style="width: 20%">Email:</th>
+            <td th:text="${user.email}"></td>
+          </tr>
+          <tr>
+            <th style="width: 20%">Username:</th>
+            <td th:text="${user.username}"></td>
+          </tr>
+          <tr>
+            <th style="width: 20%">NIP:</th>
+            <td th:text="${user.nip}"></td>
+          </tr>
+        </table>
+        <div class="text-center">
+          <a class="btn btn-primary" href="/register/admin">Register Admin</a>
+          <a class="btn btn-primary" href="/mahasiswa">List Mahasiswa</a>
+          <a class="btn btn-primary" href="/mata_kuliah">List Mata Kuliah</a>
+        </div>
+      </div>
+      
+      <div th:if="${role.equals('MAHASISWA')}" class="bg-body rounded my-3 p-3 shadow-sm">
+        <h2 class="text-center mb-4">Logged in as Mahasiswa</h2>
+        <table class="table">
+          <tr>
+            <th style="width: 20%">Nama Lengkap:</th>
+            <td th:text="${user.fullName}"></td>
+          </tr>
+          <tr>
+            <th style="width: 20%">Email:</th>
+            <td th:text="${user.email}"></td>
+          </tr>
+          <tr>
+            <th style="width: 20%">Username:</th>
+            <td th:text="${user.username}"></td>
+          </tr>
+          <tr>
+            <th style="width: 20%">NIM:</th>
+            <td th:text="${user.nim}"></td>
+          </tr>
+          <tr>
+            <th style="width: 20%">Kelas:</th>
+            <td th:text="${user.kelas}"></td>
+          </tr>
+        </table>
+        <div class="text-center">
+          <a class="btn btn-primary" href="/mata_kuliah">List Mata Kuliah</a>
+        </div>
+      </div>
+
     </div>
     <script
       src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"

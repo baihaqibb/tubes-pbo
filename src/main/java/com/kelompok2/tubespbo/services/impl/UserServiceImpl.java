@@ -1,6 +1,10 @@
 package com.kelompok2.tubespbo.services.impl;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -88,6 +92,7 @@ public class UserServiceImpl implements UserService {
         adminRepository.save(admin);
     }
 
+
     @Override
     public void createMahasiswa(MahasiswaDTO mahasiswaDTO) {
         Mahasiswa mahasiswa = mapToMahasiswa(mahasiswaDTO);
@@ -95,6 +100,19 @@ public class UserServiceImpl implements UserService {
         mahasiswa.setRole(roleRepository.findByRole("MAHASISWA").get());
         mahasiswaRepository.save(mahasiswa);
     }
+
+    @Override
+    public void updateMahasiswa(MahasiswaDTO mahasiswaDTO) {
+        Mahasiswa mahasiswa = mapToMahasiswa(mahasiswaDTO);
+        mahasiswa.setRole(roleRepository.findByRole("MAHASISWA").get());
+        mahasiswaRepository.save(mahasiswa);
+    }
+
+    @Override
+    public void deleteMahasiswaById(int id) {
+        mahasiswaRepository.deleteById(id);
+    }
+
 
     @Override
     public UserEntity findUserByEmail(String email) {
@@ -114,6 +132,7 @@ public class UserServiceImpl implements UserService {
         }
     }
     
+
     @Override
     public AdminDTO findAdminByEmail(String email) {
         try{
@@ -139,6 +158,23 @@ public class UserServiceImpl implements UserService {
         try{
             Admin admin = adminRepository.findByNip(nip).get();
             return mapToAdminDTO(admin);
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+
+    @Override
+    public List<MahasiswaDTO> findAllMahasiswa() {
+        List<Mahasiswa> mahasiswas = mahasiswaRepository.findAll(Sort.by(Sort.Direction.ASC, "nim"));
+        return mahasiswas.stream().map(mhs -> mapToMahasiswaDTO(mhs)).collect(Collectors.toList());
+    }
+
+    @Override
+    public MahasiswaDTO findMahasiswaById(int id) {
+        try {
+            Mahasiswa mahasiswa = mahasiswaRepository.findById(id).get();
+            return mapToMahasiswaDTO(mahasiswa);
         } catch (Exception e) {
             return null;
         }

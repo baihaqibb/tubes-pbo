@@ -29,15 +29,13 @@ public class SecurityConfig {
                 .authorizeHttpRequests(requests -> requests
                         .requestMatchers("/login")
                         .permitAll()
-                        .requestMatchers("/admin/**")
-                        .hasAuthority("ADMIN")
                         .anyRequest()
                         .authenticated())
                 .formLogin(form -> form
                         .loginPage("/login")
                         .defaultSuccessUrl("/")
                         .loginProcessingUrl("/login")
-                        .failureUrl("/login?error=true")
+                        .failureUrl("/login?error")
                         .permitAll()
                         )
                 .logout(logout -> logout

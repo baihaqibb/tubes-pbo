@@ -12,6 +12,5 @@ import lombok.experimental.SuperBuilder;
 @Table(name = "admin")
 public class Admin extends UserEntity{
     @Column(unique = true, nullable = false)
-    @Builder.Default
-    private String nip = "";
+    private String nip;
 }
