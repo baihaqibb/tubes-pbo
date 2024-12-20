@@ -28,7 +28,6 @@ public class RencanaStudi {
     @Column(name = "total_sks", nullable = false)
     private int totalSKS;
 
-
 }
 
 
