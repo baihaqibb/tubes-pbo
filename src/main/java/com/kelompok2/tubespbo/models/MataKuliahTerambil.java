@@ -20,4 +20,7 @@ public class MataKuliahTerambil extends MataKuliah {
     private double nilai;
     @Column(nullable = false)
     private char indexNilai;
+    @ManyToOne
+    @JoinColumn(name = "transkrip_id", nullable = false)
+    private Transkrip transkrip;
 }
