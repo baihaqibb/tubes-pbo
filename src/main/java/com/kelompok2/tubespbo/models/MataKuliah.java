@@ -1,20 +1,19 @@
 package com.kelompok2.tubespbo.models;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import jakarta.persistence.*;
 import lombok.*;
+import lombok.experimental.SuperBuilder;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
+@SuperBuilder
+@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 @Entity
 @Table(name="mata_kuliah")
 public class MataKuliah {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.TABLE)
     private int id;
     @Column(unique = true, nullable = false)
     private String kode;
@@ -22,12 +21,4 @@ public class MataKuliah {
     private String nama;
     @Column(nullable = false)
     private int sks;
-    @OneToMany(mappedBy = "mataKuliah", cascade = CascadeType.REMOVE)
-    private final List<KomponenPenilaian> komponenPenilaian = new ArrayList<>();
-    @Column(nullable = false)
-    private double nilai;
-    @Column(nullable = false)
-    private char indexNilai;
-    @ManyToMany(mappedBy = "listMK")
-    private List<RencanaStudi> listRS = new ArrayList<>();
 }

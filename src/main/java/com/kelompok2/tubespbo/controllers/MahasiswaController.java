@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.kelompok2.tubespbo.models.UserEntity;
 import com.kelompok2.tubespbo.models.dtos.MahasiswaDTO;
-import com.kelompok2.tubespbo.models.dtos.MataKuliahDTO;
 import com.kelompok2.tubespbo.services.UserService;
 
 import jakarta.validation.Valid;

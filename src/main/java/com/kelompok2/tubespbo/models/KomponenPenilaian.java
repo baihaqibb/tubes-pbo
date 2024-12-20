@@ -20,6 +20,6 @@ public class KomponenPenilaian {
     @Column(nullable = false)
     private double nilai;
     @ManyToOne
-    @JoinColumn(name = "mata_kuliah_id", nullable = false)
-    private MataKuliah mataKuliah;
+    @JoinColumn(name = "mata_kuliah_terambil_id", nullable = false)
+    private MataKuliahTerambil mataKuliahTerambil;
 }

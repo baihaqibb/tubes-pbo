@@ -39,7 +39,6 @@ public class MataKuliahController {
         model.addAttribute("mataKuliahList", mataKuliahList);
         return "mata_kuliah/index";
     }
-    
 
     @GetMapping("/{id}")
     public String mataKuliahDetail(Model model, @PathVariable int id) {

@@ -18,7 +18,7 @@
         Registration Successful!
       </div>
       <div class="mb-3">
-        <a class="btn btn-outline-secondary" href="/logout">Logout</a>
+        <a onclick="return confirm('Log out dari akun?') ? true : false" class="btn btn-outline-secondary" href="/logout">Logout</a>
       </div>
       <div th:if="${role.equals('ADMIN')}" class="bg-body rounded my-3 p-3 shadow-sm">
         <h2 class="text-center mb-4">Logged in as Admin</h2>

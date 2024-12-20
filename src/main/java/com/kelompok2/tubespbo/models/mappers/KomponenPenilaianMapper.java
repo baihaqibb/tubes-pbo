@@ -10,7 +10,7 @@ public class KomponenPenilaianMapper {
                                 .tipe(komponenPenilaianDTO.getTipe())
                                 .bobot(komponenPenilaianDTO.getBobot())
                                 .nilai(komponenPenilaianDTO.getNilai())
-                                .mataKuliah(komponenPenilaianDTO.getMataKuliah())
+                                .mataKuliahTerambil(komponenPenilaianDTO.getMataKuliahTerambil())
                                 .build();
     }
 
@@ -20,7 +20,7 @@ public class KomponenPenilaianMapper {
                                 .tipe(komponenPenilaian.getTipe())
                                 .bobot(komponenPenilaian.getBobot())
                                 .nilai(komponenPenilaian.getNilai())
-                                .mataKuliah(komponenPenilaian.getMataKuliah())
+                                .mataKuliahTerambil(komponenPenilaian.getMataKuliahTerambil())
                                 .build();
     }
 }

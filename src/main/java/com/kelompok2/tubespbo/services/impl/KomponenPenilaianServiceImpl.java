@@ -7,17 +7,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.kelompok2.tubespbo.models.KomponenPenilaian;
-import com.kelompok2.tubespbo.models.MataKuliah;
+import com.kelompok2.tubespbo.models.MataKuliahTerambil;
 import com.kelompok2.tubespbo.models.dtos.KomponenPenilaianDTO;
 import com.kelompok2.tubespbo.repositories.KomponenPenilaianRepository;
-import com.kelompok2.tubespbo.repositories.MataKuliahRepository;
+import com.kelompok2.tubespbo.repositories.MataKuliahTerambilRepository;
 import com.kelompok2.tubespbo.services.KomponenPenilaianService;
 
 @Service
 public class KomponenPenilaianServiceImpl implements KomponenPenilaianService {
 
     @Autowired
-    private MataKuliahRepository mataKuliahRepository;
+    private MataKuliahTerambilRepository mataKuliahTerambilRepository;
     @Autowired
     private KomponenPenilaianRepository komponenPenilaianRepository;
 
@@ -28,10 +28,10 @@ public class KomponenPenilaianServiceImpl implements KomponenPenilaianService {
     }
 
     @Override
-    public void createKomponenPenilaian(int mataKuliahId, KomponenPenilaianDTO komponenPenilaianDTO) {
-        MataKuliah mataKuliah = mataKuliahRepository.findById(mataKuliahId).get();
+    public void createKomponenPenilaian(int mataKuliahTerambilId, KomponenPenilaianDTO komponenPenilaianDTO) {
+        MataKuliahTerambil mataKuliahTerambil = mataKuliahTerambilRepository.findById(mataKuliahTerambilId).get();
         KomponenPenilaian komponenPenilaian = mapToKomponenPenilaian(komponenPenilaianDTO);
-        komponenPenilaian.setMataKuliah(mataKuliah);
+        komponenPenilaian.setMataKuliahTerambil(mataKuliahTerambil);
         komponenPenilaianRepository.save(komponenPenilaian);
     }
 

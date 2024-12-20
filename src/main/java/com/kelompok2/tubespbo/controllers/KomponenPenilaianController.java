@@ -69,7 +69,7 @@ public class KomponenPenilaianController {
         }
         KomponenPenilaianDTO komponenPenilaianDTO2 = komponenPenilaianService.findKomponenPenilaianById(id);
         komponenPenilaianDTO.setId(id);
-        komponenPenilaianDTO.setMataKuliah(komponenPenilaianDTO2.getMataKuliah());
+        komponenPenilaianDTO.setMataKuliahTerambil(komponenPenilaianDTO2.getMataKuliahTerambil());
         komponenPenilaianService.updateKomponenPenilaian(komponenPenilaianDTO);
         return "redirect:/mata_kuliah/" + mkid;
     }

@@ -1,6 +1,6 @@
 package com.kelompok2.tubespbo.models.dtos;
 
-import com.kelompok2.tubespbo.models.MataKuliah;
+import com.kelompok2.tubespbo.models.MataKuliahTerambil;
 
 import jakarta.validation.constraints.*;
 import lombok.*;
@@ -17,5 +17,5 @@ public class KomponenPenilaianDTO {
     @Max(value=1, message = "Bobot must be in a following range: (0.0 - 1.0)")
     private double bobot;
     private double nilai;
-    private MataKuliah mataKuliah;
+    private MataKuliahTerambil mataKuliahTerambil;
 }
