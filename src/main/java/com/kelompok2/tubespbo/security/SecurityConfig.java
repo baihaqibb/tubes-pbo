@@ -30,7 +30,8 @@ public class SecurityConfig {
                         .requestMatchers("/login")
                         .permitAll()
                         .anyRequest()
-                        .authenticated())
+                        .authenticated()
+                        )
                 .formLogin(form -> form
                         .loginPage("/login")
                         .defaultSuccessUrl("/")

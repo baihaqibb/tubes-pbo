@@ -28,4 +28,6 @@ public class MataKuliah {
     private double nilai;
     @Column(nullable = false)
     private char indexNilai;
+    @ManyToMany(mappedBy = "listMK")
+    private List<RencanaStudi> listRS = new ArrayList<>();
 }
