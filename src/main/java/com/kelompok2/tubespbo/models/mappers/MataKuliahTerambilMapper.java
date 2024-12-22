@@ -4,33 +4,46 @@ import static com.kelompok2.tubespbo.models.mappers.KomponenPenilaianMapper.mapT
 
 import java.util.stream.Collectors;
 
+import com.kelompok2.tubespbo.models.MataKuliah;
 import com.kelompok2.tubespbo.models.MataKuliahTerambil;
 import com.kelompok2.tubespbo.models.dtos.MataKuliahTerambilDTO;
 
 public class MataKuliahTerambilMapper {
-    public static MataKuliahTerambil mapToMataKuliahTerambil(MataKuliahTerambilDTO mataKuliahDTO) {
+    public static MataKuliahTerambil mapToMataKuliahTerambil(MataKuliahTerambilDTO mataKuliahTerambilDTO) {
         return MataKuliahTerambil.builder()
-                         .id(mataKuliahDTO.getId())
-                         .kode(mataKuliahDTO.getKode())
-                         .nama(mataKuliahDTO.getNama())
-                         .sks(mataKuliahDTO.getSks())
-                         .nilai(mataKuliahDTO.getNilai())
-                         .indexNilai(mataKuliahDTO.getIndexNilai())
+                         .id(mataKuliahTerambilDTO.getId())
+                         .kode(mataKuliahTerambilDTO.getKode())
+                         .nama(mataKuliahTerambilDTO.getNama())
+                         .sks(mataKuliahTerambilDTO.getSks())
+                         .nilai(mataKuliahTerambilDTO.getNilai())
+                         .indexNilai(mataKuliahTerambilDTO.getIndexNilai())
+                         .transkrip(mataKuliahTerambilDTO.getTranskrip())
                          .build();
     }
 
-    public static MataKuliahTerambilDTO mapToMataKuliahTerambilDTO(MataKuliahTerambil mataKuliah) {
+    public static MataKuliahTerambil mapToMataKuliahTerambilFromMataKuliah(MataKuliah mataKuliah) {
+        return MataKuliahTerambil.builder()
+                         .kode(mataKuliah.getKode())
+                         .nama(mataKuliah.getNama())
+                         .sks(mataKuliah.getSks())
+                         .nilai(0)
+                         .indexNilai('-')
+                         .build();
+    }
+
+    public static MataKuliahTerambilDTO mapToMataKuliahTerambilDTO(MataKuliahTerambil mataKuliahTerambil) {
         return MataKuliahTerambilDTO.builder()
-                            .id(mataKuliah.getId())
-                            .kode(mataKuliah.getKode())
-                            .nama(mataKuliah.getNama())
-                            .sks(mataKuliah.getSks())
-                            .komponenPenilaian(mataKuliah.getKomponenPenilaian()
+                            .id(mataKuliahTerambil.getId())
+                            .kode(mataKuliahTerambil.getKode())
+                            .nama(mataKuliahTerambil.getNama())
+                            .sks(mataKuliahTerambil.getSks())
+                            .komponenPenilaian(mataKuliahTerambil.getKomponenPenilaian()
                                                          .stream()
                                                          .map((kp) -> mapToKomponenPenilaianDTO(kp))
                                                          .collect(Collectors.toList()))
-                            .nilai(mataKuliah.getNilai())
-                            .indexNilai(mataKuliah.getIndexNilai())
+                            .nilai(mataKuliahTerambil.getNilai())
+                            .indexNilai(mataKuliahTerambil.getIndexNilai())
+                            .transkrip(mataKuliahTerambil.getTranskrip())
                             .build();
     }
 }

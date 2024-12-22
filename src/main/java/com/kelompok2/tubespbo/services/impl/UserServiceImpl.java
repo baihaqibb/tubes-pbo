@@ -1,5 +1,10 @@
 package com.kelompok2.tubespbo.services.impl;
 
+import static com.kelompok2.tubespbo.models.mappers.UserMapper.mapToAdmin;
+import static com.kelompok2.tubespbo.models.mappers.UserMapper.mapToAdminDTO;
+import static com.kelompok2.tubespbo.models.mappers.UserMapper.mapToMahasiswa;
+import static com.kelompok2.tubespbo.models.mappers.UserMapper.mapToMahasiswaDTO;
+
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -10,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import com.kelompok2.tubespbo.models.Admin;
 import com.kelompok2.tubespbo.models.Mahasiswa;
+import com.kelompok2.tubespbo.models.RencanaStudi;
 import com.kelompok2.tubespbo.models.UserEntity;
 import com.kelompok2.tubespbo.models.dtos.AdminDTO;
 import com.kelompok2.tubespbo.models.dtos.MahasiswaDTO;
@@ -33,57 +39,6 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    private Admin mapToAdmin(AdminDTO adminDTO) {
-        return Admin.builder()
-            .id(adminDTO.getId())
-            .email(adminDTO.getEmail())
-            .username(adminDTO.getUsername())
-            .password(adminDTO.getPassword())
-            .fullName(adminDTO.getFullName())
-            .role(adminDTO.getRole())
-            .nip(adminDTO.getNip())
-            .build();
-    }
-
-    private AdminDTO mapToAdminDTO(Admin admin) {
-        return AdminDTO.builder()
-            .id(admin.getId())
-            .email(admin.getEmail())
-            .username(admin.getUsername())
-            .password(admin.getPassword())
-            .fullName(admin.getFullName())
-            .role(admin.getRole())
-            .nip(admin.getNip())
-            .build();
-    }
-
-    private Mahasiswa mapToMahasiswa(MahasiswaDTO mahasiswaDTO) {
-        return Mahasiswa.builder()
-                .id(mahasiswaDTO.getId())
-                .email(mahasiswaDTO.getEmail())
-                .username(mahasiswaDTO.getUsername())
-                .password(mahasiswaDTO.getPassword())
-                .fullName(mahasiswaDTO.getFullName())
-                .role(mahasiswaDTO.getRole())
-                .nim(mahasiswaDTO.getNim())
-                .kelas(mahasiswaDTO.getKelas())
-                .build();
-    }
-
-    private MahasiswaDTO mapToMahasiswaDTO(Mahasiswa mahasiswa) {
-        return MahasiswaDTO.builder()
-                .id(mahasiswa.getId())
-                .email(mahasiswa.getEmail())
-                .username(mahasiswa.getUsername())
-                .password(mahasiswa.getPassword())
-                .fullName(mahasiswa.getFullName())
-                .role(mahasiswa.getRole())
-                .nim(mahasiswa.getNim())
-                .kelas(mahasiswa.getKelas())
-                .build();
-    }
-
-
     @Override
     public void createAdmin(AdminDTO adminDTO) {
         Admin admin = mapToAdmin(adminDTO);
@@ -96,6 +51,12 @@ public class UserServiceImpl implements UserService {
     @Override
     public void createMahasiswa(MahasiswaDTO mahasiswaDTO) {
         Mahasiswa mahasiswa = mapToMahasiswa(mahasiswaDTO);
+        RencanaStudi rencanaStudi = RencanaStudi.builder()
+                .semester(1)
+                .totalSKS(0)
+                .mahasiswa(mahasiswa)
+                .build();
+        mahasiswa.setRencanaStudi(rencanaStudi);
         mahasiswa.setPassword(passwordEncoder.encode(mahasiswaDTO.getPassword()));
         mahasiswa.setRole(roleRepository.findByRole("MAHASISWA").get());
         mahasiswaRepository.save(mahasiswa);

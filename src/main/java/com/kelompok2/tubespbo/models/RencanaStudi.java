@@ -24,10 +24,11 @@ public class RencanaStudi {
     }, inverseJoinColumns = {
         @JoinColumn(name = "mata_kuliah_id")
     })
-    private List<MataKuliah> listMK = new ArrayList<>();
+    private final List<MataKuliah> listMK = new ArrayList<>();
     @Column(name = "total_sks", nullable = false)
     private int totalSKS;
-
+    @OneToOne(mappedBy = "rencanaStudi")
+    private Mahasiswa mahasiswa;
 }
 
 

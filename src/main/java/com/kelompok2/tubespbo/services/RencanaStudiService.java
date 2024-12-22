@@ -1,9 +1,10 @@
 package com.kelompok2.tubespbo.services;
 
-import java.util.List;
-
 import com.kelompok2.tubespbo.models.dtos.RencanaStudiDTO;
 
 public interface RencanaStudiService {
-    List<RencanaStudiDTO> findAllRencanaStudi();
+    RencanaStudiDTO findRencanaStudiById(int id);
+    void saveRencanaStudi(int rs_id, int mk_id);
+    void removeRencanaStudi(int rs_id, int mk_id);
+    void submitRencanaStudi(int rs_id);
 }

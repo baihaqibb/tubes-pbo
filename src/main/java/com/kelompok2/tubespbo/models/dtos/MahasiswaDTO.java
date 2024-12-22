@@ -1,5 +1,8 @@
 package com.kelompok2.tubespbo.models.dtos;
 
+import java.util.List;
+
+import com.kelompok2.tubespbo.models.RencanaStudi;
 import com.kelompok2.tubespbo.models.Role;
 
 import jakarta.validation.constraints.*;
@@ -27,4 +30,6 @@ public class MahasiswaDTO {
     private String nim;
     @NotBlank(message = "Kelas must not be blank!")
     private String kelas;
+    private RencanaStudi rencanaStudi;
+    private List<TranskripDTO> transkrip;
 }

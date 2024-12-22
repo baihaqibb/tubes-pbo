@@ -6,4 +6,5 @@ import com.kelompok2.tubespbo.models.dtos.MataKuliahTerambilDTO;
 
 public interface MataKuliahTerambilService {
     List<MataKuliahTerambilDTO> findAllMataKuliahTerambil();
+    void createMataKuliahTerambil(int transkripId, MataKuliahTerambilDTO mataKuliahTerambilDTO);
 }

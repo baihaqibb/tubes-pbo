@@ -1,6 +1,8 @@
 package com.kelompok2.tubespbo.models.dtos;
 import java.util.List;
 
+import com.kelompok2.tubespbo.models.Transkrip;
+
 import jakarta.validation.constraints.*;
 import lombok.*;
 
@@ -20,4 +22,5 @@ public class MataKuliahTerambilDTO {
     private List<KomponenPenilaianDTO> komponenPenilaian;
     private double nilai;
     private char indexNilai;
+    private Transkrip transkrip;
 }

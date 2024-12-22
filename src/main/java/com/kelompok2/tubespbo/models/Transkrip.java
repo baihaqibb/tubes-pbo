@@ -19,9 +19,12 @@ public class Transkrip {
     @Column(name = "semester", nullable = false)
     private int semester;
     @OneToMany(mappedBy = "transkrip", cascade = CascadeType.REMOVE)
-    private List<MataKuliahTerambil> listMKTerambil = new ArrayList<>();
+    private final List<MataKuliahTerambil> listMKTerambil = new ArrayList<>();
     @Column(name = "total_sks", nullable = false)
     private int totalSKS;
     @Column(name = "ips", nullable = false)
     private double ips;
+    @ManyToOne
+    @JoinColumn(name = "mahasiswa_id", nullable = false)
+    private Mahasiswa mahasiswa;
 }

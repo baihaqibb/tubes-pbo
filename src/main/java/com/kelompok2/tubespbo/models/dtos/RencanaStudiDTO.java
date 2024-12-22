@@ -1,9 +1,8 @@
 package com.kelompok2.tubespbo.models.dtos;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import com.kelompok2.tubespbo.models.MataKuliah;
+import com.kelompok2.tubespbo.models.Mahasiswa;
 
 import lombok.*;
 
@@ -14,7 +13,8 @@ import lombok.*;
 public class RencanaStudiDTO {
     private int id;
     private int semester;
-    private List<MataKuliah> listMK = new ArrayList<>();
+    private List<MataKuliahDTO> listMK;
     private int totalSKS;
+    private Mahasiswa mahasiswa;
 }
 

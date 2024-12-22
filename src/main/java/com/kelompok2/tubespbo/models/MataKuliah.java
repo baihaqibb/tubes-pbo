@@ -1,5 +1,8 @@
 package com.kelompok2.tubespbo.models;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
@@ -21,4 +24,6 @@ public class MataKuliah {
     private String nama;
     @Column(nullable = false)
     private int sks;
+    @ManyToMany(mappedBy = "listMK")
+    private final List<RencanaStudi> rencanaStudi = new ArrayList<>();
 }
