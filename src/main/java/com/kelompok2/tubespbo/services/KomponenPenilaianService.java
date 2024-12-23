@@ -6,5 +6,5 @@ public interface KomponenPenilaianService {
     KomponenPenilaianDTO findKomponenPenilaianById(int id);
     void createKomponenPenilaian(int mataKuliahTerambilId, KomponenPenilaianDTO komponenPenilaianDTO);
     void updateKomponenPenilaian(KomponenPenilaianDTO komponenPenilaianDTO);
-    void deleteKomponenPenilaianByID(int id);
+    void deleteKomponenPenilaianByID(int mataKuliahTerambilId, int id);
 }

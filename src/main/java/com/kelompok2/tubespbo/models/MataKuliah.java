@@ -5,13 +5,11 @@ import java.util.List;
 
 import jakarta.persistence.*;
 import lombok.*;
-import lombok.experimental.SuperBuilder;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@SuperBuilder
-@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
+@Builder
 @Entity
 @Table(name="mata_kuliah")
 public class MataKuliah {

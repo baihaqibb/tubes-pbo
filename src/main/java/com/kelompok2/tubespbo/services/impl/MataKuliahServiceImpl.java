@@ -23,7 +23,7 @@ public class MataKuliahServiceImpl implements MataKuliahService {
 
     @Override
     public List<MataKuliahDTO> findAllMataKuliah() {
-        List<MataKuliah> mataKuliahs = mataKuliahRepository.findAll(Sort.by(Sort.Direction.ASC, "id"));
+        List<MataKuliah> mataKuliahs = mataKuliahRepository.findAll(Sort.by(Sort.Direction.ASC, "kode"));
         return mataKuliahs.stream().map((mataKuliah) -> mapToMataKuliahDTO(mataKuliah)).collect(Collectors.toList());
     }
 

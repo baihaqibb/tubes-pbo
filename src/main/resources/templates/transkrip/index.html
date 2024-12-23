@@ -15,7 +15,7 @@
   <body class="bg-light">
     <div class="container my-5 w-75">
       <div class="mb-3 d-flex justify-content-between">
-        <a class="btn btn-outline-secondary" href="/">Kembali</a>
+        <a class="btn btn-outline-secondary" th:href="@{/mahasiswa/{mhs_id}(mhs_id=${mhs.id})}">Kembali</a>
       </div>
       <div class="bg-body rounded my-3 p-3 shadow-sm">
         <h2 class="text-center mb-4">List Transkrip</h2>
@@ -38,7 +38,7 @@
 
               <td style="white-space: nowrap">
                 <a
-                  th:href="@{/transkrip/{id}(id=${ts.id})}"
+                  th:href="@{/transkrip/{mhs_id}/{ts_id}(mhs_id=${mhs.id}, ts_id=${ts.id})}"
                   class="btn btn-primary btn-sm"
                 >
                   Detail

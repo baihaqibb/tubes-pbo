@@ -69,20 +69,23 @@ public class RencanaStudiServiceImpl implements RencanaStudiService {
     public void submitRencanaStudi(int rs_id) {
         try {
             RencanaStudi rencanaStudi = rencanaStudiRepository.findById(rs_id).get();
-            Transkrip transkrip = Transkrip.builder()
-                .semester(rencanaStudi.getSemester())
-                .totalSKS(rencanaStudi.getTotalSKS())
-                .mahasiswa(rencanaStudi.getMahasiswa())
-                .ips(0)
-                .build();
-            rencanaStudi.setSemester(rencanaStudi.getSemester()+1);
-            rencanaStudi.setTotalSKS(0);
-            rencanaStudi.getListMK().clear();
-            transkripRepository.save(transkrip);
-            for (MataKuliah mk : rencanaStudi.getListMK()) {
-                MataKuliahTerambil mkt = mapToMataKuliahTerambilFromMataKuliah(mk);
-                mkt.setTranskrip(transkrip);
-                mataKuliahRepository.save(mkt);
+            if (rencanaStudi.getTotalSKS() != 0) {
+                Transkrip transkrip = Transkrip.builder()
+                    .semester(rencanaStudi.getSemester())
+                    .totalSKS(rencanaStudi.getTotalSKS())
+                    .mahasiswa(rencanaStudi.getMahasiswa())
+                    .ips(0)
+                    .build();
+                transkripRepository.save(transkrip);
+                for (MataKuliah mk : rencanaStudi.getListMK()) {
+                    MataKuliahTerambil mkt = mapToMataKuliahTerambilFromMataKuliah(mk);
+                    mkt.setTranskrip(transkrip);
+                    mataKuliahTerambilRepository.save(mkt);
+                }
+                rencanaStudi.setSemester(rencanaStudi.getSemester()+1);
+                rencanaStudi.setTotalSKS(0);
+                rencanaStudi.getListMK().clear();
+                rencanaStudiRepository.save(rencanaStudi);
             }
         } catch (Exception e) {
 

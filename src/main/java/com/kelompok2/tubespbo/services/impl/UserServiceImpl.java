@@ -65,7 +65,9 @@ public class UserServiceImpl implements UserService {
     @Override
     public void updateMahasiswa(MahasiswaDTO mahasiswaDTO) {
         Mahasiswa mahasiswa = mapToMahasiswa(mahasiswaDTO);
+        RencanaStudi rencanaStudi =  mahasiswaRepository.findById(mahasiswaDTO.getId()).get().getRencanaStudi();
         mahasiswa.setRole(roleRepository.findByRole("MAHASISWA").get());
+        mahasiswa.setRencanaStudi(rencanaStudi);
         mahasiswaRepository.save(mahasiswa);
     }
 

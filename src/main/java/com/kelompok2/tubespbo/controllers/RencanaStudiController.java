@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
@@ -13,8 +14,6 @@ import com.kelompok2.tubespbo.models.dtos.MataKuliahDTO;
 import com.kelompok2.tubespbo.models.dtos.RencanaStudiDTO;
 import com.kelompok2.tubespbo.services.MataKuliahService;
 import com.kelompok2.tubespbo.services.RencanaStudiService;
-import org.springframework.web.bind.annotation.RequestParam;
-
 
 @Controller
 @RequestMapping("/rencana_studi")
@@ -33,6 +32,7 @@ public class RencanaStudiController {
             return "redirect:/";
         }
         model.addAttribute("rs", rs);
+        
         model.addAttribute("mkList", mkList);
         return "rencana_studi/edit";
     }
@@ -56,9 +56,9 @@ public class RencanaStudiController {
     }
     
     @GetMapping("{rs_id}/submit")
-    public String submitRencanaStudi(Model model, @PathVariable int rs_id) {
+    public String submitRencanaStudi(Model model, @PathVariable int rs_id, @RequestParam("mhs") int mhs_id) {
         rencanaStudiService.submitRencanaStudi(rs_id);
-        return "redirect:/";
+        return "redirect:/mahasiswa/" + mhs_id;
     }
     
 }

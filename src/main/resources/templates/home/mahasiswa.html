@@ -46,7 +46,7 @@
           <tr>
             <th style="width: 20%">Transkrip:</th>
             <td>
-              <a class="btn btn-outline-primary btn-sm" href="/transkrip">Lihat Transkrip</a>
+              <a class="btn btn-outline-primary btn-sm" th:href="@{/transkrip/{id}(id=${user.id})}">Lihat Transkrip</a>
             </td>
           </tr>
         </table>
@@ -62,8 +62,6 @@
           </tr>
         </table>
         <a class="btn btn-primary mb-3" th:href="@{/rencana_studi/{rs_id}/edit(rs_id=${user.rencanaStudi.id})}">Edit Rencana Studi</a>
-        <a class="btn btn-outline-success mb-3" onclick="return confirm('Submit Rencana Studi ini? Anda tidak bisa mengubahnya lagi setelah submit!') ? true : false" 
-        th:href="@{/rencana_studi/{rs_id}/submit(rs_id=${user.rencanaStudi.id})}">Submit</a>
         <table class="table table-striped table-hover">
           <thead class="table-primary">
             <tr>

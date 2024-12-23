@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.kelompok2.tubespbo.models.UserEntity;
 import com.kelompok2.tubespbo.models.dtos.MahasiswaDTO;
+import com.kelompok2.tubespbo.security.SecurityUtil;
 import com.kelompok2.tubespbo.services.UserService;
 
 import jakarta.validation.Valid;
@@ -36,6 +37,10 @@ public class MahasiswaController {
 
     @GetMapping("/{id}")
     public String matahasiswaDetail(Model model, @PathVariable int id) {
+        String currentAuthority = SecurityUtil.getSessionAuthority();
+        if (!currentAuthority.equals("ADMIN")){
+            return "redirect:/";
+        }
         MahasiswaDTO mahasiswaDTO = userService.findMahasiswaById(id);
         if (mahasiswaDTO == null) {
             return "redirect:/mahasiswa";

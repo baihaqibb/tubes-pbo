@@ -44,7 +44,7 @@ public class KomponenPenilaianController {
             return "komponen_penilaian/create";
         }
         komponenPenilaianService.createKomponenPenilaian(mkid, komponenPenilaianDTO);
-        return "redirect:/mata_kuliah/" + mkid;
+        return "redirect:/mata_kuliah_terambil/" + mkid;
     }
 
     @GetMapping("{mkid}/{id}/edit")
@@ -71,13 +71,13 @@ public class KomponenPenilaianController {
         komponenPenilaianDTO.setId(id);
         komponenPenilaianDTO.setMataKuliahTerambil(komponenPenilaianDTO2.getMataKuliahTerambil());
         komponenPenilaianService.updateKomponenPenilaian(komponenPenilaianDTO);
-        return "redirect:/mata_kuliah/" + mkid;
+        return "redirect:/mata_kuliah_terambil/" + mkid;
     }
 
     @GetMapping("{mkid}/{id}/delete")
     public String getMethodName(@PathVariable int mkid, @PathVariable int id) {
-        komponenPenilaianService.deleteKomponenPenilaianByID(id);
-        return "redirect:/mata_kuliah/" + mkid;
+        komponenPenilaianService.deleteKomponenPenilaianByID(mkid, id);
+        return "redirect:/mata_kuliah_terambil/" + mkid;
     }
     
 }

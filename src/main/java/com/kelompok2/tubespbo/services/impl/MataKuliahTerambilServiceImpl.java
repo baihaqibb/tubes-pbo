@@ -38,5 +38,15 @@ public class MataKuliahTerambilServiceImpl implements MataKuliahTerambilService 
         mataKuliahTerambil.setTranskrip(transkrip);
         mataKuliahTerambilRepository.save(mataKuliahTerambil);
     }
+
+    @Override
+    public MataKuliahTerambilDTO findMataKuliahTerambilById(int mkt_id) {
+        try {
+            MataKuliahTerambil mkt = mataKuliahTerambilRepository.findById(mkt_id).get();
+            return mapToMataKuliahTerambilDTO(mkt);
+        } catch (Exception e) {
+            return null;
+        }
+    }
     
 }

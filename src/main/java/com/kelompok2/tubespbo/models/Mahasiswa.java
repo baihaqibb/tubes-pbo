@@ -25,6 +25,6 @@ public class Mahasiswa extends UserEntity {
         @JoinColumn(name = "rencana_studi_id", referencedColumnName = "id")
     })
     private RencanaStudi rencanaStudi;
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "mahasiswa", cascade = CascadeType.ALL)
     private final List<Transkrip> transkrip = new ArrayList<>();
 }
