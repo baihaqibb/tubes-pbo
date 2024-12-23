@@ -2,6 +2,7 @@ package com.kelompok2.tubespbo.services.impl;
 
 import static com.kelompok2.tubespbo.models.mappers.MataKuliahMapper.mapToMataKuliah;
 import static com.kelompok2.tubespbo.models.mappers.MataKuliahMapper.mapToMataKuliahDTO;
+import static com.kelompok2.tubespbo.models.mappers.MataKuliahMapper.mapToMataKuliahDTO2;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -32,6 +33,16 @@ public class MataKuliahServiceImpl implements MataKuliahService {
         try {
             MataKuliah mataKuliah = mataKuliahRepository.findById(id).get();
             return mapToMataKuliahDTO(mataKuliah);
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    @Override
+    public MataKuliahDTO findMataKuliahById2(int id) {
+        try {
+            MataKuliah mataKuliah = mataKuliahRepository.findById(id).get();
+            return mapToMataKuliahDTO2(mataKuliah);
         } catch (Exception e) {
             return null;
         }

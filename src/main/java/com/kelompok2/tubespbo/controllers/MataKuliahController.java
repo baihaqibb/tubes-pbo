@@ -42,7 +42,7 @@ public class MataKuliahController {
 
     @GetMapping("/{id}")
     public String mataKuliahDetail(Model model, @PathVariable int id) {
-        MataKuliahDTO mataKuliahDTO = mataKuliahService.findMataKuliahById(id);
+        MataKuliahDTO mataKuliahDTO = mataKuliahService.findMataKuliahById2(id);
         if (mataKuliahDTO == null) {
             return "redirect:/mata_kuliah";
         }
