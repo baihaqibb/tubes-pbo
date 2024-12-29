@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Create Mata Kuliah</title>
+    <title>Edit Komponen Penilaian</title>
     <link
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
       rel="stylesheet"
@@ -16,59 +16,58 @@
     <div class="container my-5 w-75">
       <div class="row">
         <div class="bg-body col-md-8 mx-auto rounded border p-4">
-          <h3 class="text-center mb-4">Tambah Mata Kuliah</h3>
+          <h3 class="text-center mb-4">Edit Komponen Penilaian</h3>
 
-          <form method="post" th:object="${mk}">
+          <form method="post" th:object="${kp}">
             <div class="row mb-3">
-              <label class="col-sm-4 col-form-label">Kode</label>
+              <label class="col-sm-4 col-form-label">Tipe Komponen</label>
               <div class="col-md-8">
                 <input
                   type="text"
                   class="form-control"
-                  placeholder="Kode dari mata kuliah yang diinginkan"
-                  th:field="${mk.kode}"
+                  th:field="${kp.tipe}"
                   required
                 />
                 <p
-                  th:if="${#fields.hasErrors('kode')}"
+                  th:if="${#fields.hasErrors('tipe')}"
                   th:errorclass="text-danger"
-                  th:errors="${mk.kode}"
+                  th:errors="${kp.tipe}"
                 ></p>
               </div>
             </div>
 
             <div class="row mb-3">
-              <label class="col-sm-4 col-form-label">Nama</label>
-              <div class="col-md-8">
-                <input
-                  type="text"
-                  class="form-control"
-                  placeholder="Nama mata kuliah yang diinginkan"
-                  th:field="${mk.nama}"
-                  required
-                />
-                <p
-                  th:if="${#fields.hasErrors('nama')}"
-                  th:errorclass="text-danger"
-                  th:errors="${mk.nama}"
-                ></p>
-              </div>
-            </div>
-
-            <div class="row mb-3">
-              <label class="col-sm-4 col-form-label">SKS</label>
+              <label class="col-sm-4 col-form-label">Bobot</label>
               <div class="col-md-8">
                 <input
                   type="number"
                   class="form-control"
-                  placeholder="Jumlah SKS yang diinginkan dari mata kuliah"
-                  th:field="${mk.sks}"
+                  step="0.01"
+                  th:field="${kp.bobot}"
                   required
                 />
                 <p
-                  th:if="${#fields.hasErrors('sks')}"
+                  th:if="${#fields.hasErrors('bobot')}"
                   th:errorclass="text-danger"
-                  th:errors="${mk.sks}"
+                  th:errors="${kp.bobot}"
+                ></p>
+              </div>
+            </div>
+
+            <div class="row mb-3">
+              <label class="col-sm-4 col-form-label">Nilai</label>
+              <div class="col-md-8">
+                <input
+                  type="number"
+                  class="form-control"
+                  step="0.1"
+                  th:field="${kp.nilai}"
+                  required
+                />
+                <p
+                  th:if="${#fields.hasErrors('nilai')}"
+                  th:errorclass="text-danger"
+                  th:errors="${kp.nilai}"
                 ></p>
               </div>
             </div>
@@ -78,7 +77,7 @@
                 <button type="submit" class="btn btn-primary">Submit</button>
               </div>
               <div class="col-sm-4 d-grid">
-                <a href="/mata_kuliah" class="btn btn-outline-primary"
+                <a th:href="@{/transkrip/{mhs_id}/{ts_id}/{mk_id}(mhs_id=${mhs_id}, ts_id=${ts_id}, mk_id=${mkt_id})}" class="btn btn-outline-primary"
                   >Cancel</a
                 >
               </div>

@@ -14,11 +14,11 @@
 
   <body class="bg-light">
     <div class="container my-5 w-75">
+      <div class="mb-3">
+        <a class="btn btn-outline-secondary" href="/mata_kuliah">Kembali</a>
+      </div>
       <div class="bg-body my-3 p-3 rounded shadow-sm">
         <h2 class="text-center mb-4">Detail Mata Kuliah</h2>
-        <div class="pb-3">
-          <a class="btn btn-outline-primary" href="/mata_kuliah">Kembali</a>
-        </div>
         <table class="table">
           <tr>
             <th style="width: 20%">ID:</th>
@@ -38,47 +38,28 @@
           </tr>
         </table>
 
-        <h4 class="text-center my-4">Komponen Penilaian Mata Kuliah</h4>
-        <!--
-        <div class="pb-3">
-          <a class="btn btn-primary" href="/mata_kuliah">Tambah</a>
+        <div>
+          <h4 class="text-center my-4">Diambil oleh:</h4>
+          
+          <table class="table table-striped table-hover">
+            <thead class="table-primary">
+              <tr>
+                <th>ID</th>
+                <th>Nama Mahasiswa</th>
+                <th>NIM</th>
+                <th>Kelas</th>
+              </tr>
+            </thead>
+            <tbody class="table-group-divider">
+              <tr th:each="rs : ${mk.rencanaStudi}">
+                <td th:text="${rs.mahasiswa.id}"></td>
+                <td th:text="${rs.mahasiswa.fullName}"></td>
+                <td th:text="${rs.mahasiswa.nim}"></td>
+                <td th:text="${rs.mahasiswa.kelas}"></td>
+              </tr>
+            </tbody>
+          </table>
         </div>
-
-        <table class="table table-hover">
-          <thead>
-            <tr>
-              <th>ID</th>
-              <th>Kode</th>
-              <th>Nama Mata Kuliah</th>
-              <th>SKS</th>
-              <th>Action</th>
-            </tr>
-          </thead>
-          <tbody class="table-group-divider">
-            <tr>
-              <td th:text="${mk.id}"></td>
-              <td th:text="${mk.kode}"></td>
-              <td th:text="${mk.nama}"></td>
-              <td th:text="${mk.sks}"></td>
-
-              <td style="white-space: nowrap">
-                <a
-                  th:href="@{/mata_kuliah/edit(id=${mk.id})}"
-                  class="btn btn-primary btn-sm"
-                >
-                  Edit
-                </a>
-                <a
-                  th:href="@{/mata_kuliah/delete(id=${mk.id})}"
-                  class="btn btn-danger btn-sm"
-                >
-                  Delete
-                </a>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-        -->
       </div>
     </div>
     <script

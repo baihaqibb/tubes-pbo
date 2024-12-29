@@ -17,20 +17,21 @@
         <div class="bg-body col-md-8 mx-auto rounded border p-4">
           <h3 class="text-center mb-4">Edit Mata Kuliah</h3>
 
-          <form method="post" th:object="${mataKuliahDTO}">
+          <form method="post" th:object="${mk}">
             <div class="row mb-3">
               <label class="col-sm-4 col-form-label">Kode</label>
               <div class="col-md-8">
                 <input
                   type="text"
                   class="form-control"
-                  th:field="${mataKuliahDTO.kode}"
+                  placeholder="Kode dari mata kuliah yang diinginkan"
+                  th:field="${mk.kode}"
                   required
                 />
                 <p
                   th:if="${#fields.hasErrors('kode')}"
                   th:errorclass="text-danger"
-                  th:errors="${mataKuliahDTO.kode}"
+                  th:errors="${mk.kode}"
                 ></p>
               </div>
             </div>
@@ -41,13 +42,14 @@
                 <input
                   type="text"
                   class="form-control"
-                  th:field="${mataKuliahDTO.nama}"
+                  placeholder="Nama mata kuliah yang diinginkan"
+                  th:field="${mk.nama}"
                   required
                 />
                 <p
                   th:if="${#fields.hasErrors('nama')}"
                   th:errorclass="text-danger"
-                  th:errors="${mataKuliahDTO.nama}"
+                  th:errors="${mk.nama}"
                 ></p>
               </div>
             </div>
@@ -58,15 +60,14 @@
                 <input
                   type="number"
                   class="form-control"
-                  min="1"
-                  max="99"
-                  th:field="${mataKuliahDTO.sks}"
+                  placeholder="Jumlah SKS yang diinginkan dari mata kuliah"
+                  th:field="${mk.sks}"
                   required
                 />
                 <p
                   th:if="${#fields.hasErrors('sks')}"
                   th:errorclass="text-danger"
-                  th:errors="${mataKuliahDTO.sks}"
+                  th:errors="${mk.sks}"
                 ></p>
               </div>
             </div>
