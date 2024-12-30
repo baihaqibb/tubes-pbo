@@ -74,7 +74,7 @@
                 <td th:text="${kp.bobot}"></td>
                 <td th:text="${kp.nilai}"></td>
 
-                <td style="white-space: nowrap">
+                <td th:if="${role.equals('ADMIN')}" style="white-space: nowrap">
                   <a
                     th:href="@{/transkrip/{mhs_id}/{ts_id}/{mk_id}/{id}/edit(mhs_id=${mhs_id}, ts_id=${ts_id}, mk_id=${mkt_id}, id=${kp.id})}"
                     class="btn btn-primary btn-sm"
