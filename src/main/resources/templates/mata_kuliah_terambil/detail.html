@@ -74,14 +74,16 @@
                 <td th:text="${kp.bobot}"></td>
                 <td th:text="${kp.nilai}"></td>
 
-                <td th:if="${role.equals('ADMIN')}" style="white-space: nowrap">
+                <td style="white-space: nowrap">
                   <a
+                    th:if="${role.equals('ADMIN')}"
                     th:href="@{/transkrip/{mhs_id}/{ts_id}/{mk_id}/{id}/edit(mhs_id=${mhs_id}, ts_id=${ts_id}, mk_id=${mkt_id}, id=${kp.id})}"
                     class="btn btn-primary btn-sm"
                   >
                     Edit
                   </a>
                   <a
+                    th:if="${role.equals('ADMIN')}"
                     th:href="@{/transkrip/{mhs_id}/{ts_id}/{mk_id}/{id}/delete(mhs_id=${mhs_id}, ts_id=${ts_id}, mk_id=${mkt_id}, id=${kp.id})}"
                     class="btn btn-danger btn-sm"
                   >
