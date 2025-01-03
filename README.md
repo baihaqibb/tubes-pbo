@@ -1,3 +1,9 @@
+# Cara Inisiasi untuk First Time User:
+- Pastikan XAMPP sudah terinstal dengan konfigurasi phpMyAdmin username = "root" dan password = "" (tanpa kutip)
+- Eksekusi kode SQL yang telah disediakan di repository github ke phpMyAdmin
+- Jalankan program springboot
+- Login sebagai admin dengan username = "admin" dan password = "password" (tanpa kutip)
+
 # User Manual: Aplikasi Registrasi Semester Mahasiswa
 
 ## Deskripsi
