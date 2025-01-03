@@ -30,6 +30,10 @@ public class MahasiswaController {
 
     @GetMapping({"", "/"})
     public String mahasiswaList(Model model) {
+        String currentAuthority = SecurityUtil.getSessionAuthority();
+        if (!currentAuthority.equals("ADMIN")) {
+            return "redirect:/";
+        }
         List<MahasiswaDTO> mahasiswaList = userService.findAllMahasiswa();
         model.addAttribute("mahasiswaList", mahasiswaList);
         return "mahasiswa/index";
@@ -51,6 +55,10 @@ public class MahasiswaController {
 
     @GetMapping("/{id}/edit")
     public String editMahasiswaForm(Model model, @PathVariable int id) {
+        String currentAuthority = SecurityUtil.getSessionAuthority();
+        if (!currentAuthority.equals("ADMIN")) {
+            return "redirect:/";
+        }
         MahasiswaDTO mahasiswaDTO = userService.findMahasiswaById(id);
         if (mahasiswaDTO == null) {
             return "redirect:/mahasiswa";
@@ -84,6 +92,10 @@ public class MahasiswaController {
 
     @GetMapping("/{id}/delete")
     public String deleteMahasiswa(@PathVariable int id) {
+        String currentAuthority = SecurityUtil.getSessionAuthority();
+        if (!currentAuthority.equals("ADMIN")) {
+            return "redirect:/";
+        }
         userService.deleteMahasiswaById(id);
         return "redirect:/mahasiswa";
     }

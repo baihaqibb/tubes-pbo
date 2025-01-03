@@ -77,6 +77,10 @@ public class TranskripController {
 
     @GetMapping("{mhs_id}/{ts_id}/{mkt_id}/create")
     public String createKomponenPenilaianForm(Model model, @PathVariable int mhs_id, @PathVariable int ts_id, @PathVariable int mkt_id) {
+        String currentAuthority = SecurityUtil.getSessionAuthority();
+        if (!currentAuthority.equals("ADMIN")) {
+            return "redirect:/";
+        }
         KomponenPenilaian komponenPenilaian = new KomponenPenilaian();
         model.addAttribute("mhs_id", mhs_id);
         model.addAttribute("ts_id", ts_id);
@@ -86,7 +90,7 @@ public class TranskripController {
     }
 
     @PostMapping("{mhs_id}/{ts_id}/{mkt_id}/create")
-    public String postMethodName(Model model, 
+    public String createKomponenPenilaianQuery(Model model, 
                                  @PathVariable int mhs_id, @PathVariable int ts_id, @PathVariable int mkt_id,
                                  @Valid @ModelAttribute("kp") KomponenPenilaianDTO komponenPenilaianDTO, 
                                  BindingResult result) 
@@ -101,6 +105,10 @@ public class TranskripController {
 
     @GetMapping("{mhs_id}/{ts_id}/{mkt_id}/{id}/edit")
     public String editKomponenPenilaianForm(Model model, @PathVariable int mhs_id, @PathVariable int ts_id, @PathVariable int mkt_id, @PathVariable int id) {
+        String currentAuthority = SecurityUtil.getSessionAuthority();
+        if (!currentAuthority.equals("ADMIN")) {
+            return "redirect:/";
+        }
         KomponenPenilaianDTO komponenPenilaianDTO = komponenPenilaianService.findKomponenPenilaianById(id);
         model.addAttribute("mhs_id", mhs_id);
         model.addAttribute("ts_id", ts_id);
@@ -110,7 +118,7 @@ public class TranskripController {
     }
 
     @PostMapping("{mhs_id}/{ts_id}/{mkt_id}/{id}/edit")
-    public String editMataKuliahQuery(Model model, 
+    public String editKomponenPenilaianQuery(Model model, 
                                       @PathVariable int mhs_id, @PathVariable int ts_id, @PathVariable int mkt_id,
                                       @PathVariable int id, 
                                       @Valid @ModelAttribute("kp") KomponenPenilaianDTO komponenPenilaianDTO,
@@ -129,7 +137,11 @@ public class TranskripController {
     }
 
     @GetMapping("{mhs_id}/{ts_id}/{mkt_id}/{id}/delete")
-    public String getMethodName(@PathVariable int mhs_id, @PathVariable int ts_id, @PathVariable int mkt_id, @PathVariable int id) {
+    public String deleteKomponenPenilaian(@PathVariable int mhs_id, @PathVariable int ts_id, @PathVariable int mkt_id, @PathVariable int id) {
+        String currentAuthority = SecurityUtil.getSessionAuthority();
+        if (!currentAuthority.equals("ADMIN")) {
+            return "redirect:/";
+        }
         komponenPenilaianService.deleteKomponenPenilaianByID(mkt_id, id);
         return "redirect:/transkrip/" + mhs_id + "/" + ts_id + "/" + mkt_id;
     }

@@ -11,12 +11,10 @@ import org.springframework.web.bind.annotation.*;
 
 import com.kelompok2.tubespbo.models.MataKuliah;
 import com.kelompok2.tubespbo.models.dtos.MataKuliahDTO;
+import com.kelompok2.tubespbo.security.SecurityUtil;
 import com.kelompok2.tubespbo.services.MataKuliahService;
 
 import jakarta.validation.Valid;
-
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 
 @Controller
@@ -28,6 +26,10 @@ public class MataKuliahController {
 
     @GetMapping({ "", "/" })
     public String mataKuliahList(Model model) {
+        String currentAuthority = SecurityUtil.getSessionAuthority();
+        if (!currentAuthority.equals("ADMIN")) {
+            return "redirect:/";
+        }
         List<MataKuliahDTO> mataKuliahList = mataKuliahService.findAllMataKuliah();
         model.addAttribute("mataKuliahList", mataKuliahList);
         return "mata_kuliah/index";
@@ -35,6 +37,10 @@ public class MataKuliahController {
 
     @GetMapping("/search")
     public String getMethodName(Model model, @RequestParam(value = "q") String query) {
+        String currentAuthority = SecurityUtil.getSessionAuthority();
+        if (!currentAuthority.equals("ADMIN")) {
+            return "redirect:/";
+        }
         List<MataKuliahDTO> mataKuliahList = mataKuliahService.searchMataKuliahs(query);
         model.addAttribute("mataKuliahList", mataKuliahList);
         return "mata_kuliah/index";
@@ -42,6 +48,10 @@ public class MataKuliahController {
 
     @GetMapping("/{id}")
     public String mataKuliahDetail(Model model, @PathVariable int id) {
+        String currentAuthority = SecurityUtil.getSessionAuthority();
+        if (!currentAuthority.equals("ADMIN")) {
+            return "redirect:/";
+        }
         MataKuliahDTO mataKuliahDTO = mataKuliahService.findMataKuliahById2(id);
         if (mataKuliahDTO == null) {
             return "redirect:/mata_kuliah";
@@ -52,6 +62,10 @@ public class MataKuliahController {
 
     @GetMapping("/create")
     public String createMataKuliahForm(Model model) {
+        String currentAuthority = SecurityUtil.getSessionAuthority();
+        if (!currentAuthority.equals("ADMIN")) {
+            return "redirect:/";
+        }
         MataKuliah mataKuliah = new MataKuliah();
         model.addAttribute("mk", mataKuliah);
         return "mata_kuliah/create";
@@ -81,6 +95,10 @@ public class MataKuliahController {
 
     @GetMapping("/{id}/edit")
     public String editMataKuliahForm(Model model, @PathVariable int id) {
+        String currentAuthority = SecurityUtil.getSessionAuthority();
+        if (!currentAuthority.equals("ADMIN")) {
+            return "redirect:/";
+        }
         MataKuliahDTO mataKuliah = mataKuliahService.findMataKuliahById(id);
         if (mataKuliah == null) {
             return "redirect:/mata_kuliah";
@@ -116,6 +134,10 @@ public class MataKuliahController {
 
     @GetMapping("/{id}/delete")
     public String deleteMataKuliah(@PathVariable int id) {
+        String currentAuthority = SecurityUtil.getSessionAuthority();
+        if (!currentAuthority.equals("ADMIN")) {
+            return "redirect:/";
+        }
         mataKuliahService.deleteMataKuliahById(id);
         return "redirect:/mata_kuliah";
     }
