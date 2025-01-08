@@ -26,44 +26,66 @@ public class RencanaStudiController {
     private MataKuliahService mataKuliahService;
     
     @GetMapping("{rs_id}/edit")
-    public String editRencanaStudiForm(Model model, @PathVariable int rs_id) {
-        RencanaStudiDTO rs = rencanaStudiService.findRencanaStudiById(rs_id);
-        List<MataKuliahDTO> mkList = mataKuliahService.findAllMataKuliah();
-        if (rs == null) {
-            return "redirect:/";
+    public String editRencanaStudiForm(Model model, @PathVariable String rs_id) {
+        try{
+            int rs_idInt = Integer.parseInt(rs_id);
+            RencanaStudiDTO rs = rencanaStudiService.findRencanaStudiById(rs_idInt);
+            List<MataKuliahDTO> mkList = mataKuliahService.findAllMataKuliah();
+            if (rs == null) {
+                return "redirect:/";
+            }
+            model.addAttribute("rs", rs);
+            
+            model.addAttribute("mkList", mkList);
+            return "rencana_studi/edit";
+        } catch (NumberFormatException e) {
+            return "redirect:/home?typeError";
         }
-        model.addAttribute("rs", rs);
-        
-        model.addAttribute("mkList", mkList);
-        return "rencana_studi/edit";
     }
 
     @GetMapping("{rs_id}/add/{mk_id}")
     public String addMataKuliahToList(Model model, 
-        @PathVariable int rs_id, 
-        @PathVariable int mk_id) 
+        @PathVariable String rs_id, 
+        @PathVariable String mk_id) 
     {
-        rencanaStudiService.saveRencanaStudi(rs_id, mk_id);
-        return "redirect:/rencana_studi/" + rs_id + "/edit";
+        try{
+            int rs_idInt = Integer.parseInt(rs_id);
+            int mk_idInt = Integer.parseInt(mk_id);
+            rencanaStudiService.saveRencanaStudi(rs_idInt, mk_idInt);
+            return "redirect:/rencana_studi/" + rs_idInt + "/edit";
+        } catch (NumberFormatException e) {
+            return "redirect:/home?typeError";
+        }
     }
     
     @GetMapping("{rs_id}/remove/{mk_id}")
     public String removeMataKuliahFromList(Model model, 
-        @PathVariable int rs_id, 
-        @PathVariable int mk_id) 
+        @PathVariable String rs_id, 
+        @PathVariable String mk_id) 
     {
-        rencanaStudiService.removeRencanaStudi(rs_id, mk_id);
-        return "redirect:/rencana_studi/" + rs_id + "/edit";
+        try{
+            int rs_idInt = Integer.parseInt(rs_id);
+            int mk_idInt = Integer.parseInt(mk_id);
+            rencanaStudiService.removeRencanaStudi(rs_idInt, mk_idInt);
+            return "redirect:/rencana_studi/" + rs_id + "/edit";
+        } catch (NumberFormatException e) {
+            return "redirect:/home?typeError";
+        }
     }
     
     @GetMapping("{rs_id}/submit")
-    public String submitRencanaStudi(Model model, @PathVariable int rs_id, @RequestParam("mhs") int mhs_id) {
-        String currentAuthority = SecurityUtil.getSessionAuthority();
-        if (!currentAuthority.equals("ADMIN")) {
-            return "redirect:/error";
+    public String submitRencanaStudi(Model model, @PathVariable String rs_id, @RequestParam("mhs") String mhs_id) {
+        try{
+            int rs_idInt = Integer.parseInt(rs_id);
+            int mhs_idInt = Integer.parseInt(mhs_id);
+            String currentAuthority = SecurityUtil.getSessionAuthority();
+            if (!currentAuthority.equals("ADMIN")) {
+                return "redirect:/home?authError";
+            }
+            rencanaStudiService.submitRencanaStudi(rs_idInt);
+            return "redirect:/mahasiswa/" + mhs_idInt;
+        } catch (NumberFormatException e) {
+            return "redirect:/home?typeError";
         }
-        rencanaStudiService.submitRencanaStudi(rs_id);
-        return "redirect:/mahasiswa/" + mhs_id;
     }
-    
 }

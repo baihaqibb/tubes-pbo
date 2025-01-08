@@ -32,7 +32,7 @@ public class MahasiswaController {
     public String mahasiswaList(Model model) {
         String currentAuthority = SecurityUtil.getSessionAuthority();
         if (!currentAuthority.equals("ADMIN")) {
-            return "redirect:/error";
+            return "redirect:/home?authError";
         }
         List<MahasiswaDTO> mahasiswaList = userService.findAllMahasiswa();
         model.addAttribute("mahasiswaList", mahasiswaList);
@@ -40,31 +40,41 @@ public class MahasiswaController {
     }
 
     @GetMapping("/{id}")
-    public String matahasiswaDetail(Model model, @PathVariable int id) {
-        String currentAuthority = SecurityUtil.getSessionAuthority();
-        if (!currentAuthority.equals("ADMIN")) {
-            return "redirect:/error";
+    public String matahasiswaDetail(Model model, @PathVariable String id) {
+        try{
+            int idInt = Integer.parseInt(id);
+            String currentAuthority = SecurityUtil.getSessionAuthority();
+            if (!currentAuthority.equals("ADMIN")) {
+                return "redirect:/home?authError";
+            }
+            MahasiswaDTO mahasiswaDTO = userService.findMahasiswaById(idInt);
+            if (mahasiswaDTO == null) {
+                return "redirect:/mahasiswa";
+            }
+            model.addAttribute("mhs", mahasiswaDTO);
+            return "mahasiswa/detail";
+        } catch (NumberFormatException e) {
+            return "redirect:/home?typeError";
         }
-        MahasiswaDTO mahasiswaDTO = userService.findMahasiswaById(id);
-        if (mahasiswaDTO == null) {
-            return "redirect:/mahasiswa";
-        }
-        model.addAttribute("mhs", mahasiswaDTO);
-        return "mahasiswa/detail";
     }
 
     @GetMapping("/{id}/edit")
-    public String editMahasiswaForm(Model model, @PathVariable int id) {
-        String currentAuthority = SecurityUtil.getSessionAuthority();
-        if (!currentAuthority.equals("ADMIN")) {
-            return "redirect:/error";
+    public String editMahasiswaForm(Model model, @PathVariable String id) {
+        try{
+            int idInt = Integer.parseInt(id);
+            String currentAuthority = SecurityUtil.getSessionAuthority();
+            if (!currentAuthority.equals("ADMIN")) {
+                return "redirect:/home?authError";
+            }
+            MahasiswaDTO mahasiswaDTO = userService.findMahasiswaById(idInt);
+            if (mahasiswaDTO == null) {
+                return "redirect:/mahasiswa";
+            }
+            model.addAttribute("mhs", mahasiswaDTO);
+            return "mahasiswa/edit";
+        } catch (NumberFormatException e) {
+            return "redirect:/home?typeError";
         }
-        MahasiswaDTO mahasiswaDTO = userService.findMahasiswaById(id);
-        if (mahasiswaDTO == null) {
-            return "redirect:/mahasiswa";
-        }
-        model.addAttribute("mhs", mahasiswaDTO);
-        return "mahasiswa/edit";
     }
 
     @PostMapping("/{id}/edit")
@@ -91,13 +101,18 @@ public class MahasiswaController {
     }
 
     @GetMapping("/{id}/delete")
-    public String deleteMahasiswa(@PathVariable int id) {
-        String currentAuthority = SecurityUtil.getSessionAuthority();
-        if (!currentAuthority.equals("ADMIN")) {
-            return "redirect:/error";
+    public String deleteMahasiswa(@PathVariable String id) {
+        try{
+            int idInt = Integer.parseInt(id);
+            String currentAuthority = SecurityUtil.getSessionAuthority();
+            if (!currentAuthority.equals("ADMIN")) {
+                return "redirect:/home?authError";
+            }
+            userService.deleteMahasiswaById(idInt);
+            return "redirect:/mahasiswa";
+        } catch (NumberFormatException e) {
+            return "redirect:/home?typeError";
         }
-        userService.deleteMahasiswaById(id);
-        return "redirect:/mahasiswa";
     }
     
 }

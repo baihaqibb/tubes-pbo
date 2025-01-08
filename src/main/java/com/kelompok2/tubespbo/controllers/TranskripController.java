@@ -45,48 +45,71 @@ public class TranskripController {
     }
 
     @GetMapping("{mhs_id}")
-    public String transkripList(Model model, @PathVariable int mhs_id) {
-        MahasiswaDTO mhs = userService.findMahasiswaById(mhs_id);
-        List<TranskripDTO> tsList = transkripService.findAllTranskripByMahasiswaId(mhs_id);
-        model.addAttribute("mhs", mhs);
-        model.addAttribute("tsList", tsList);
-        return "transkrip/index";
+    public String transkripList(Model model, @PathVariable String mhs_id) {
+        try{
+            int mhs_idInt = Integer.parseInt(mhs_id);
+            MahasiswaDTO mhs = userService.findMahasiswaById(mhs_idInt);
+            List<TranskripDTO> tsList = transkripService.findAllTranskripByMahasiswaId(mhs_idInt);
+            model.addAttribute("mhs", mhs);
+            model.addAttribute("tsList", tsList);
+            return "transkrip/index";
+        } catch (NumberFormatException e) {
+            return "redirect:/home?typeError";
+        }
     }
 
     @GetMapping("{mhs_id}/{ts_id}")
-    public String transkripDetail(Model model, @PathVariable int mhs_id, @PathVariable int ts_id) {
-        MahasiswaDTO mhs = userService.findMahasiswaById(mhs_id);
-        TranskripDTO ts = transkripService.findTranskripById(ts_id);
-        model.addAttribute("mhs", mhs);
-        model.addAttribute("ts", ts);
-        return "transkrip/detail";
+    public String transkripDetail(Model model, @PathVariable String mhs_id, @PathVariable String ts_id) {
+        try{
+            int mhs_idInt = Integer.parseInt(mhs_id);
+            int ts_idInt = Integer.parseInt(ts_id);
+            MahasiswaDTO mhs = userService.findMahasiswaById(mhs_idInt);
+            TranskripDTO ts = transkripService.findTranskripById(ts_idInt);
+            model.addAttribute("mhs", mhs);
+            model.addAttribute("ts", ts);
+            return "transkrip/detail";
+        } catch (NumberFormatException e) {
+            return "redirect:/home?typeError";
+        }
     }
 
     @GetMapping("{mhs_id}/{ts_id}/{mkt_id}")
-    public String mataKuliahTerambilDetail(Model model, @PathVariable int mhs_id, @PathVariable int ts_id, @PathVariable int mkt_id) {
-        MataKuliahTerambilDTO mkt = mataKuliahTerambilService.findMataKuliahTerambilById(mkt_id);
-        String currentAuthority = SecurityUtil.getSessionAuthority();
-        model.addAttribute("role", currentAuthority);
-        model.addAttribute("mhs_id", mhs_id);
-        model.addAttribute("ts_id", ts_id);
-        model.addAttribute("mkt", mkt);
-        return "mata_kuliah_terambil/detail";
+    public String mataKuliahTerambilDetail(Model model, @PathVariable String mhs_id, @PathVariable String ts_id, @PathVariable String mkt_id) {
+        try{
+            int mhs_idInt = Integer.parseInt(mhs_id);
+            int ts_idInt = Integer.parseInt(ts_id);
+            int mkt_idInt = Integer.parseInt(mkt_id);
+            MataKuliahTerambilDTO mkt = mataKuliahTerambilService.findMataKuliahTerambilById(mkt_idInt);
+            String currentAuthority = SecurityUtil.getSessionAuthority();
+            model.addAttribute("role", currentAuthority);
+            model.addAttribute("mhs_id", mhs_idInt);
+            model.addAttribute("ts_id", ts_idInt);
+            model.addAttribute("mkt", mkt);
+            return "mata_kuliah_terambil/detail";
+        } catch (NumberFormatException e) {
+            return "redirect:/home?typeError";
+        }
     }
-    
-    
 
     @GetMapping("{mhs_id}/{ts_id}/{mkt_id}/create")
-    public String createKomponenPenilaianForm(Model model, @PathVariable int mhs_id, @PathVariable int ts_id, @PathVariable int mkt_id) {
-        String currentAuthority = SecurityUtil.getSessionAuthority();
-        if (!currentAuthority.equals("ADMIN")) {
-            return "redirect:/error";
+    public String createKomponenPenilaianForm(Model model, @PathVariable String mhs_id, @PathVariable String ts_id, @PathVariable String mkt_id) {
+        try{
+            int mhs_idInt = Integer.parseInt(mhs_id);
+            int ts_idInt = Integer.parseInt(ts_id);
+            int mkt_idInt = Integer.parseInt(mkt_id);
+            String currentAuthority = SecurityUtil.getSessionAuthority();
+            if (!currentAuthority.equals("ADMIN")) {
+                return "redirect:/home?authError";
+            }
+            KomponenPenilaian komponenPenilaian = new KomponenPenilaian();
+            model.addAttribute("mhs_id", mhs_idInt);
+            model.addAttribute("ts_id", ts_idInt);
+            model.addAttribute("mkid", mkt_idInt);
+            model.addAttribute("kp", komponenPenilaian);
+            return "komponen_penilaian/create";
+        } catch (NumberFormatException e) {
+            return "redirect:/home?typeError";
         }
-        KomponenPenilaian komponenPenilaian = new KomponenPenilaian();
-        model.addAttribute("mhs_id", mhs_id);
-        model.addAttribute("ts_id", ts_id);
-        model.addAttribute("mkid", mkt_id);
-        model.addAttribute("kp", komponenPenilaian);
-        return "komponen_penilaian/create";
     }
 
     @PostMapping("{mhs_id}/{ts_id}/{mkt_id}/create")
@@ -104,17 +127,25 @@ public class TranskripController {
     }
 
     @GetMapping("{mhs_id}/{ts_id}/{mkt_id}/{id}/edit")
-    public String editKomponenPenilaianForm(Model model, @PathVariable int mhs_id, @PathVariable int ts_id, @PathVariable int mkt_id, @PathVariable int id) {
-        String currentAuthority = SecurityUtil.getSessionAuthority();
-        if (!currentAuthority.equals("ADMIN")) {
-            return "redirect:/error";
+    public String editKomponenPenilaianForm(Model model, @PathVariable String mhs_id, @PathVariable String ts_id, @PathVariable String mkt_id, @PathVariable String id) {
+        try{
+            int mhs_idInt = Integer.parseInt(mhs_id);
+            int ts_idInt = Integer.parseInt(ts_id);
+            int mkt_idInt = Integer.parseInt(mkt_id);
+            int idInt = Integer.parseInt(id);
+            String currentAuthority = SecurityUtil.getSessionAuthority();
+            if (!currentAuthority.equals("ADMIN")) {
+                return "redirect:/home?authError";
+            }
+            KomponenPenilaianDTO komponenPenilaianDTO = komponenPenilaianService.findKomponenPenilaianById(idInt);
+            model.addAttribute("mhs_id", mhs_idInt);
+            model.addAttribute("ts_id", ts_idInt);
+            model.addAttribute("mkid", mkt_idInt);
+            model.addAttribute("kp", komponenPenilaianDTO);
+            return "komponen_penilaian/edit";
+        } catch (NumberFormatException e) {
+            return "redirect:/home?typeError";
         }
-        KomponenPenilaianDTO komponenPenilaianDTO = komponenPenilaianService.findKomponenPenilaianById(id);
-        model.addAttribute("mhs_id", mhs_id);
-        model.addAttribute("ts_id", ts_id);
-        model.addAttribute("mkid", mkt_id);
-        model.addAttribute("kp", komponenPenilaianDTO);
-        return "komponen_penilaian/edit";
     }
 
     @PostMapping("{mhs_id}/{ts_id}/{mkt_id}/{id}/edit")
@@ -137,13 +168,20 @@ public class TranskripController {
     }
 
     @GetMapping("{mhs_id}/{ts_id}/{mkt_id}/{id}/delete")
-    public String deleteKomponenPenilaian(@PathVariable int mhs_id, @PathVariable int ts_id, @PathVariable int mkt_id, @PathVariable int id) {
-        String currentAuthority = SecurityUtil.getSessionAuthority();
-        if (!currentAuthority.equals("ADMIN")) {
-            return "redirect:/error";
+    public String deleteKomponenPenilaian(@PathVariable String mhs_id, @PathVariable String ts_id, @PathVariable String mkt_id, @PathVariable String id) {
+        try{
+            int mhs_idInt = Integer.parseInt(mhs_id);
+            int ts_idInt = Integer.parseInt(ts_id);
+            int mkt_idInt = Integer.parseInt(mkt_id);
+            int idInt = Integer.parseInt(id);
+            String currentAuthority = SecurityUtil.getSessionAuthority();
+            if (!currentAuthority.equals("ADMIN")) {
+                return "redirect:/home?authError";
+            }
+            komponenPenilaianService.deleteKomponenPenilaianByID(mkt_idInt, idInt);
+            return "redirect:/transkrip/" + mhs_idInt + "/" + ts_idInt + "/" + mkt_idInt;
+        } catch (NumberFormatException e) {
+            return "redirect:/home?typeError";
         }
-        komponenPenilaianService.deleteKomponenPenilaianByID(mkt_id, id);
-        return "redirect:/transkrip/" + mhs_id + "/" + ts_id + "/" + mkt_id;
     }
-    
 }

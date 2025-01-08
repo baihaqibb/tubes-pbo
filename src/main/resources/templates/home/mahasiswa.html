@@ -17,6 +17,12 @@
       <div th:if="${param.success}" class="alert alert-success">
         Registration Successful!
       </div>
+      <div th:if="${param.typeError}" class="alert alert-danger">
+        Error! Invalid Path Variable Data Type!
+      </div>
+      <div th:if="${param.authError}" class="alert alert-danger">
+        Error! Unauthorized Access!
+      </div>
       <div th:if="${param.error}" class="alert alert-danger">
         Error! Something went wrong :(
       </div>

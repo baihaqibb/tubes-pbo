@@ -14,6 +14,7 @@ import com.kelompok2.tubespbo.models.Mahasiswa;
 import com.kelompok2.tubespbo.models.UserEntity;
 import com.kelompok2.tubespbo.models.dtos.AdminDTO;
 import com.kelompok2.tubespbo.models.dtos.MahasiswaDTO;
+import com.kelompok2.tubespbo.security.SecurityUtil;
 import com.kelompok2.tubespbo.services.UserService;
 
 import jakarta.validation.Valid;
@@ -32,6 +33,10 @@ public class RegistrationController {
 
     @GetMapping("/admin")
     public String registerAdmin(Model model) {
+        String currentAuthority = SecurityUtil.getSessionAuthority();
+        if (!currentAuthority.equals("ADMIN")) {
+            return "redirect:/home?authError";
+        }
         Admin admin = new Admin();
         model.addAttribute("adm", admin);
         return "register/admin";
@@ -63,6 +68,10 @@ public class RegistrationController {
     
     @GetMapping("/mahasiswa")
     public String registerMahasiswa(Model model) {
+        String currentAuthority = SecurityUtil.getSessionAuthority();
+        if (!currentAuthority.equals("ADMIN")) {
+            return "redirect:/home?authError";
+        }
         Mahasiswa mahasiswa = new Mahasiswa();
         model.addAttribute("mhs", mahasiswa);
         return "/register/mahasiswa";

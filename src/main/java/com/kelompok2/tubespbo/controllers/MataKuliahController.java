@@ -28,7 +28,7 @@ public class MataKuliahController {
     public String mataKuliahList(Model model) {
         String currentAuthority = SecurityUtil.getSessionAuthority();
         if (!currentAuthority.equals("ADMIN")) {
-            return "redirect:/error";
+            return "redirect:/home?authError";
         }
         List<MataKuliahDTO> mataKuliahList = mataKuliahService.findAllMataKuliah();
         model.addAttribute("mataKuliahList", mataKuliahList);
@@ -39,7 +39,7 @@ public class MataKuliahController {
     public String getMethodName(Model model, @RequestParam(value = "q") String query) {
         String currentAuthority = SecurityUtil.getSessionAuthority();
         if (!currentAuthority.equals("ADMIN")) {
-            return "redirect:/error";
+            return "redirect:/home?authError";
         }
         List<MataKuliahDTO> mataKuliahList = mataKuliahService.searchMataKuliahs(query);
         model.addAttribute("mataKuliahList", mataKuliahList);
@@ -47,24 +47,29 @@ public class MataKuliahController {
     }
 
     @GetMapping("/{id}")
-    public String mataKuliahDetail(Model model, @PathVariable int id) {
-        String currentAuthority = SecurityUtil.getSessionAuthority();
-        if (!currentAuthority.equals("ADMIN")) {
-            return "redirect:/error";
+    public String mataKuliahDetail(Model model, @PathVariable String id) {
+        try{
+            int idInt = Integer.parseInt(id);
+            String currentAuthority = SecurityUtil.getSessionAuthority();
+            if (!currentAuthority.equals("ADMIN")) {
+                return "redirect:/home?authError";
+            }
+            MataKuliahDTO mataKuliahDTO = mataKuliahService.findMataKuliahById2(idInt);
+            if (mataKuliahDTO == null) {
+                return "redirect:/mata_kuliah";
+            }
+            model.addAttribute("mk", mataKuliahDTO);
+            return "mata_kuliah/detail";
+        } catch (NumberFormatException e) {
+            return "redirect:/home?typeError";
         }
-        MataKuliahDTO mataKuliahDTO = mataKuliahService.findMataKuliahById2(id);
-        if (mataKuliahDTO == null) {
-            return "redirect:/mata_kuliah";
-        }
-        model.addAttribute("mk", mataKuliahDTO);
-        return "mata_kuliah/detail";
     }
 
     @GetMapping("/create")
     public String createMataKuliahForm(Model model) {
         String currentAuthority = SecurityUtil.getSessionAuthority();
         if (!currentAuthority.equals("ADMIN")) {
-            return "redirect:/error";
+            return "redirect:/home?authError";
         }
         MataKuliah mataKuliah = new MataKuliah();
         model.addAttribute("mk", mataKuliah);
@@ -94,17 +99,22 @@ public class MataKuliahController {
     }
 
     @GetMapping("/{id}/edit")
-    public String editMataKuliahForm(Model model, @PathVariable int id) {
-        String currentAuthority = SecurityUtil.getSessionAuthority();
-        if (!currentAuthority.equals("ADMIN")) {
-            return "redirect:/error";
+    public String editMataKuliahForm(Model model, @PathVariable String id) {
+        try{
+            int idInt = Integer.parseInt(id);
+            String currentAuthority = SecurityUtil.getSessionAuthority();
+            if (!currentAuthority.equals("ADMIN")) {
+                return "redirect:/home?authError";
+            }
+            MataKuliahDTO mataKuliah = mataKuliahService.findMataKuliahById(idInt);
+            if (mataKuliah == null) {
+                return "redirect:/mata_kuliah";
+            }
+            model.addAttribute("mk", mataKuliah);
+            return "mata_kuliah/edit";
+        } catch (NumberFormatException e) {
+            return "redirect:/home?typeError";
         }
-        MataKuliahDTO mataKuliah = mataKuliahService.findMataKuliahById(id);
-        if (mataKuliah == null) {
-            return "redirect:/mata_kuliah";
-        }
-        model.addAttribute("mk", mataKuliah);
-        return "mata_kuliah/edit";
     }
 
     @PostMapping("/{id}/edit")
@@ -133,12 +143,17 @@ public class MataKuliahController {
     }
 
     @GetMapping("/{id}/delete")
-    public String deleteMataKuliah(@PathVariable int id) {
-        String currentAuthority = SecurityUtil.getSessionAuthority();
-        if (!currentAuthority.equals("ADMIN")) {
-            return "redirect:/error";
+    public String deleteMataKuliah(@PathVariable String id) {
+        try{
+            int idInt = Integer.parseInt(id);
+            String currentAuthority = SecurityUtil.getSessionAuthority();
+            if (!currentAuthority.equals("ADMIN")) {
+                return "redirect:/home?authError";
+            }
+            mataKuliahService.deleteMataKuliahById(idInt);
+            return "redirect:/mata_kuliah";
+        } catch (NumberFormatException e) {
+            return "redirect:/home?typeError";
         }
-        mataKuliahService.deleteMataKuliahById(id);
-        return "redirect:/mata_kuliah";
     }
 }
