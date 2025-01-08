@@ -79,7 +79,7 @@ public class TranskripController {
     public String createKomponenPenilaianForm(Model model, @PathVariable int mhs_id, @PathVariable int ts_id, @PathVariable int mkt_id) {
         String currentAuthority = SecurityUtil.getSessionAuthority();
         if (!currentAuthority.equals("ADMIN")) {
-            return "redirect:/";
+            return "redirect:/error";
         }
         KomponenPenilaian komponenPenilaian = new KomponenPenilaian();
         model.addAttribute("mhs_id", mhs_id);
@@ -107,7 +107,7 @@ public class TranskripController {
     public String editKomponenPenilaianForm(Model model, @PathVariable int mhs_id, @PathVariable int ts_id, @PathVariable int mkt_id, @PathVariable int id) {
         String currentAuthority = SecurityUtil.getSessionAuthority();
         if (!currentAuthority.equals("ADMIN")) {
-            return "redirect:/";
+            return "redirect:/error";
         }
         KomponenPenilaianDTO komponenPenilaianDTO = komponenPenilaianService.findKomponenPenilaianById(id);
         model.addAttribute("mhs_id", mhs_id);
@@ -140,7 +140,7 @@ public class TranskripController {
     public String deleteKomponenPenilaian(@PathVariable int mhs_id, @PathVariable int ts_id, @PathVariable int mkt_id, @PathVariable int id) {
         String currentAuthority = SecurityUtil.getSessionAuthority();
         if (!currentAuthority.equals("ADMIN")) {
-            return "redirect:/";
+            return "redirect:/error";
         }
         komponenPenilaianService.deleteKomponenPenilaianByID(mkt_id, id);
         return "redirect:/transkrip/" + mhs_id + "/" + ts_id + "/" + mkt_id;

@@ -60,7 +60,7 @@ public class RencanaStudiController {
     public String submitRencanaStudi(Model model, @PathVariable int rs_id, @RequestParam("mhs") int mhs_id) {
         String currentAuthority = SecurityUtil.getSessionAuthority();
         if (!currentAuthority.equals("ADMIN")) {
-            return "redirect:/";
+            return "redirect:/error";
         }
         rencanaStudiService.submitRencanaStudi(rs_id);
         return "redirect:/mahasiswa/" + mhs_id;

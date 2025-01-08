@@ -28,7 +28,7 @@ public class MataKuliahController {
     public String mataKuliahList(Model model) {
         String currentAuthority = SecurityUtil.getSessionAuthority();
         if (!currentAuthority.equals("ADMIN")) {
-            return "redirect:/";
+            return "redirect:/error";
         }
         List<MataKuliahDTO> mataKuliahList = mataKuliahService.findAllMataKuliah();
         model.addAttribute("mataKuliahList", mataKuliahList);
@@ -39,7 +39,7 @@ public class MataKuliahController {
     public String getMethodName(Model model, @RequestParam(value = "q") String query) {
         String currentAuthority = SecurityUtil.getSessionAuthority();
         if (!currentAuthority.equals("ADMIN")) {
-            return "redirect:/";
+            return "redirect:/error";
         }
         List<MataKuliahDTO> mataKuliahList = mataKuliahService.searchMataKuliahs(query);
         model.addAttribute("mataKuliahList", mataKuliahList);
@@ -50,7 +50,7 @@ public class MataKuliahController {
     public String mataKuliahDetail(Model model, @PathVariable int id) {
         String currentAuthority = SecurityUtil.getSessionAuthority();
         if (!currentAuthority.equals("ADMIN")) {
-            return "redirect:/";
+            return "redirect:/error";
         }
         MataKuliahDTO mataKuliahDTO = mataKuliahService.findMataKuliahById2(id);
         if (mataKuliahDTO == null) {
@@ -64,7 +64,7 @@ public class MataKuliahController {
     public String createMataKuliahForm(Model model) {
         String currentAuthority = SecurityUtil.getSessionAuthority();
         if (!currentAuthority.equals("ADMIN")) {
-            return "redirect:/";
+            return "redirect:/error";
         }
         MataKuliah mataKuliah = new MataKuliah();
         model.addAttribute("mk", mataKuliah);
@@ -97,7 +97,7 @@ public class MataKuliahController {
     public String editMataKuliahForm(Model model, @PathVariable int id) {
         String currentAuthority = SecurityUtil.getSessionAuthority();
         if (!currentAuthority.equals("ADMIN")) {
-            return "redirect:/";
+            return "redirect:/error";
         }
         MataKuliahDTO mataKuliah = mataKuliahService.findMataKuliahById(id);
         if (mataKuliah == null) {
@@ -136,7 +136,7 @@ public class MataKuliahController {
     public String deleteMataKuliah(@PathVariable int id) {
         String currentAuthority = SecurityUtil.getSessionAuthority();
         if (!currentAuthority.equals("ADMIN")) {
-            return "redirect:/";
+            return "redirect:/error";
         }
         mataKuliahService.deleteMataKuliahById(id);
         return "redirect:/mata_kuliah";

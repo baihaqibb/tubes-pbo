@@ -17,6 +17,9 @@
       <div th:if="${param.success}" class="alert alert-success">
         Registration Successful!
       </div>
+      <div th:if="${param.error}" class="alert alert-danger">
+        Error! Something went wrong :(
+      </div>
       <div class="mb-3">
         <a onclick="return confirm('Log out dari akun?') ? true : false" class="btn btn-outline-secondary" href="/logout">Logout</a>
       </div>

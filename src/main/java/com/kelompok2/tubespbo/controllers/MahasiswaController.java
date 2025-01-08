@@ -32,7 +32,7 @@ public class MahasiswaController {
     public String mahasiswaList(Model model) {
         String currentAuthority = SecurityUtil.getSessionAuthority();
         if (!currentAuthority.equals("ADMIN")) {
-            return "redirect:/";
+            return "redirect:/error";
         }
         List<MahasiswaDTO> mahasiswaList = userService.findAllMahasiswa();
         model.addAttribute("mahasiswaList", mahasiswaList);
@@ -42,8 +42,8 @@ public class MahasiswaController {
     @GetMapping("/{id}")
     public String matahasiswaDetail(Model model, @PathVariable int id) {
         String currentAuthority = SecurityUtil.getSessionAuthority();
-        if (!currentAuthority.equals("ADMIN")){
-            return "redirect:/";
+        if (!currentAuthority.equals("ADMIN")) {
+            return "redirect:/error";
         }
         MahasiswaDTO mahasiswaDTO = userService.findMahasiswaById(id);
         if (mahasiswaDTO == null) {
@@ -57,7 +57,7 @@ public class MahasiswaController {
     public String editMahasiswaForm(Model model, @PathVariable int id) {
         String currentAuthority = SecurityUtil.getSessionAuthority();
         if (!currentAuthority.equals("ADMIN")) {
-            return "redirect:/";
+            return "redirect:/error";
         }
         MahasiswaDTO mahasiswaDTO = userService.findMahasiswaById(id);
         if (mahasiswaDTO == null) {
@@ -94,7 +94,7 @@ public class MahasiswaController {
     public String deleteMahasiswa(@PathVariable int id) {
         String currentAuthority = SecurityUtil.getSessionAuthority();
         if (!currentAuthority.equals("ADMIN")) {
-            return "redirect:/";
+            return "redirect:/error";
         }
         userService.deleteMahasiswaById(id);
         return "redirect:/mahasiswa";
